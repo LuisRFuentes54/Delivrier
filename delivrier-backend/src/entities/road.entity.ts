@@ -25,9 +25,9 @@ export class Road {
   @ManyToOne(type => Place, place => place.endingRoads)
   endingPlace: Place;
 
-  @JoinColumn({ name: 'fk_oficina_destino' })
-  @ManyToOne(type => Office, office => office.endingRoads)
-  endingOffice: Office;
+  @JoinColumn({ name: 'fk_oficina_origen' })
+  @ManyToOne(type => Office, office => office.initialRoads)
+  initialOffice: Office;
 
   @JoinColumn({ name: 'fk_envio' })
   @ManyToOne(type => Shipping, shipping => shipping.roads)

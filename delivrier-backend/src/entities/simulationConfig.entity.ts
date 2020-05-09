@@ -7,7 +7,7 @@ export class SimulationConfig {
   id: number;
 
   @Column({ name: 'tiempo_inicio' })
-  begining: string;
+  begining: number;
 
   @OneToMany(type => Shipping, shipping => shipping.simulationConfig)
   shippings: Shipping[];

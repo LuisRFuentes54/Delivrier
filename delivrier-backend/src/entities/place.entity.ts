@@ -7,18 +7,17 @@ export class Place {
   @PrimaryGeneratedColumn({ name: 'clave' })
   id: number;
 
-  @Column({ name: 'nombre' })
+  @Column({ name: 'direccion' })
   name: string;
 
-  @Column({ name: 'tipo' })
-  tipo: string;
+  @Column({ name: 'altitud' })
+  altitude: number;
 
-  @JoinColumn({ name: 'fk_lugar' })
-  @ManyToOne(type => Place, placeOwner => placeOwner.places)
-  placeOwner: Place;
+  @Column({ name: 'longitud' })
+  length: number;
 
-  @OneToMany(type => Place, places => places.placeOwner)
-  places: Place[];
+  @Column({ name: 'zip' })
+  zip: number;
 
   @OneToMany(type => Office, offices => offices.place)
   offices: Office[];

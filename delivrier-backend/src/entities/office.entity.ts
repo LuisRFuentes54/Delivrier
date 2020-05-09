@@ -15,8 +15,8 @@ export class Office {
   @ManyToOne(type => Place, place => place.offices)
   place: Place;
 
-  @OneToMany(type => Road, roads => roads.endingOffice)
-  endingRoads: Road[];
+  @OneToMany(type => Road, roads => roads.initialOffice)
+  initialRoads: Road[];
 
   @OneToMany(type => OfficeStatus, officeStatus => officeStatus.office)
   officeStatus: OfficeStatus[];
