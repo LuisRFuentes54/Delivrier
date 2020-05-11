@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 // import the auto exporter
-import modules from "./modules";
+import modules from "./modules/index";
 
 Vue.use(Vuex);
 
