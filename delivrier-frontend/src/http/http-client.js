@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
 
-const baseDomain = process.env.VUE_APP_DELIVRIER_API;
+const baseDomain = 'http://localhost:3000/delivrier/api/v1';
 
 const httpClient = axios.create({
-  baseURL: baseDomain || "http://localhost:3000",
+  baseURL: baseDomain || 'http://localhost:3000',
   timeout: 5000
 });
 

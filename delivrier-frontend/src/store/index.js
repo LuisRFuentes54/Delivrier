@@ -1,20 +1,22 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 // import the auto exporter
-import modules from "./modules/index";
+import users from './modules/users.store';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  modules: {
+    users
+  }, //all modules are automatically imported
   mutations: {},
   actions: {
-    reset({ commit }) {
-      // resets state of all the modules
-      Object.keys(modules).forEach(moduleName => {
-        commit(`${moduleName}/RESET`);
-      });
-    }
+    // reset({ commit }) {
+    //   // resets state of all the modules
+    //   Object.keys(modules).forEach(moduleName => {
+    //     commit(`${moduleName}/RESET`);
+    //   });
+    // }
   },
-  modules //all modules are automatically imported
+  getters: {}
 });

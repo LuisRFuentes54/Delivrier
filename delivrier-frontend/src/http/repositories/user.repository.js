@@ -16,5 +16,5 @@ export default {
   },
   delete(id) {
     return httpClient.delete(`${resource}/${id}`);
-  }
+  },
 };
