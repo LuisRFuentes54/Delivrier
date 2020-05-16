@@ -1,4 +1,4 @@
-const ID_TOKEN_KEY = "id_token";
+const ID_TOKEN_KEY = 'id_token';
 
 export const getToken = () => {
   return localStorage.getItem(ID_TOKEN_KEY);
@@ -16,4 +16,4 @@ export const authHeaderToken = () => {
   return { Authorization: `Bearer ${getToken()}` };
 };
 
-export default { getToken, saveToken, destroyToken };
+export default { getToken, saveToken, destroyToken, authHeaderToken };

@@ -7,21 +7,19 @@ const AuthorizeRepository = Repository.get('authorize');
 
 // Initial State object
 const initialState = () => {
-  user: {
-  }
-  error: '';
+  return { user: {}, error: '' };
 };
 
 // State object
-const state = {
-  user: {},
-  error: ''
-};
+const state = initialState();
 
 // Getter functions
 const getters = {
   getError(state) {
     return state;
+  },
+  getUser(state) {
+    return state.user;
   }
 };
 
@@ -33,10 +31,10 @@ const mutations = {
   set_error_message(state, error) {
     state.error = error;
   },
-  reset() {
+  reset(state) {
     const newState = initialState();
     Object.keys(newState).forEach(key => {
-      this.state[key] = newState[key];
+      state[key] = newState[key];
     });
   }
 };

@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="3">
         <div
-          class="d-flex align-center "
+          class="d-flex align-center"
           :class="[
             $vuetify.breakpoint.lgAndUp ? 'justify-end' : 'justify-center'
           ]"
@@ -31,11 +31,9 @@
             >
               <v-tab
                 v-for="option in navbarOptions"
-                :key="option"
-                @click="route(option)"
-              >
-                {{ option }}
-              </v-tab>
+                :key="option.title"
+                @click="route(option.routeName)"
+              >{{ option.title }}</v-tab>
             </v-tabs>
           </div>
         </v-row>
@@ -56,21 +54,21 @@
       <v-col cols="2">
         <v-menu v-if="$vuetify.breakpoint.mdAndUp" offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn
-              dark
-              v-if="$vuetify.breakpoint.mdAndUp"
-              class="ma-2 mt-1"
-              large
-              icon
-              v-on="on"
-            >
+            <v-btn dark v-if="$vuetify.breakpoint.mdAndUp" class="ma-2 mt-1" large icon v-on="on">
               <v-icon>mdi-account-circle</v-icon>
             </v-btn>
           </template>
           <v-list>
             <v-list-item-group>
-              <v-list-item v-for="option in profileOptions" :key="option">
-                <v-list-item-title>{{ option }}</v-list-item-title>
+              <v-list-item
+                v-for="option in profileOptions"
+                :key="option.title"
+                @click="route(option.routeName)"
+              >
+                <v-list-item-icon>
+                  <v-icon>{{option.icon}}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title class="subtitle-2">{{ option.title }}</v-list-item-title>
               </v-list-item>
             </v-list-item-group>
           </v-list>
@@ -85,14 +83,18 @@
             <v-list-item-group v-model="currentOption">
               <v-list-item
                 v-for="option in navbarOptions"
-                :key="option"
-                @click="route(option)"
+                :key="option.title"
+                @click="route(option.routeName)"
               >
-                <v-list-item-title>{{ option }}</v-list-item-title>
+                <v-list-item-title>{{ option.title }}</v-list-item-title>
               </v-list-item>
               <v-divider />
-              <v-list-item v-for="option in profileOptions" :key="option">
-                <v-list-item-title>{{ option }}</v-list-item-title>
+              <v-list-item
+                v-for="option in profileOptions"
+                :key="option.title"
+                @click="route(option.routeName)"
+              >
+                <v-list-item-title>{{ option.title }}</v-list-item-title>
               </v-list-item>
             </v-list-item-group>
           </v-list>
@@ -104,14 +106,26 @@
 
 <script>
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   data: () => ({
-    navbarOptions: ["Home", "Envíos", "Rastreo", "Cotización"],
+    navbarOptions: [
+      { title: 'Home', routeName: 'Home' },
+      { title: 'Envíos', routeName: 'Delivery' },
+      { title: 'Rastreo', routeName: 'Tracking' },
+      { title: 'Cotización', routeName: 'Pricing' }
+    ],
     currentOption: 1,
-    profileOptions: ["Iniciar sesión", "Registrarse"],
-    currentProfileOption: "",
-    languages: ["Español", "English"],
-    language: "Español"
+    profileOptions: [
+      {
+        title: 'Iniciar sesión',
+        icon: 'mdi-login-variant',
+        routeName: 'Login'
+      },
+      { title: 'Registrarse', icon: 'mdi-account-circle', routeName: '' }
+    ],
+    currentProfileOption: '',
+    languages: ['Español', 'English'],
+    language: 'Español'
   }),
   methods: {
     route(option) {
@@ -120,15 +134,15 @@ export default {
   },
   watch: {
     $route() {
-      this.currentOption = this.navbarOptions.indexOf(
-        this.$router.currentRoute.name
-      );
+      this.currentOption = this.navbarOptions.findIndex(option => {
+        return this.$router.currentRoute.name === option.routeName;
+      });
     }
   },
   mounted() {
-    this.currentOption = this.navbarOptions.indexOf(
-      this.$router.currentRoute.name
-    );
+    this.currentOption = this.navbarOptions.findIndex(option => {
+      return this.$router.currentRoute.name === option.routeName;
+    });
   }
 };
 </script>

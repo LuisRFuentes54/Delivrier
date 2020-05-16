@@ -77,7 +77,7 @@ export default {
         errorMessage = this.$store.getters['users/getError'].error;
         if (errorMessage === 'Unauthorized')
           this.errors.push('Invalid credentials.');
-        if (this.errors.length === 0) this.$router.push('home');
+        if (this.errors.length === 0) this.$router.push({ name: 'Platform' });
       } else {
         if (!this.username) this.errors.push('Username required.');
         if (!this.password) this.errors.push('Password required.');
