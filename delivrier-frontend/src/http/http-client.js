@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseDomain = 'http://localhost:3000/delivrier/api/v1';
+const baseDomain = process.env.VUE_APP_DELIVRIER_API;
 
 const httpClient = axios.create({
   baseURL: baseDomain || 'http://localhost:3000',

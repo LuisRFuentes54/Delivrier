@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="gradient">
-    <v-row style="height: 96vh;" align="center" justify="center">
-      <v-card width="400px" class="ml-5 mr-5 mt-10 rounded-card" color="#F8F8FF">
+    <v-row class="gradient" align="center" justify="center">
+      <v-card width="400px" class="ml-5 mr-5 my-auto rounded-card" color="#F8F8FF">
         <p class="text-center mt-10 caption grey--text">Sign in with</p>
         <v-card-actions class="justify-center">
           <v-btn elevation="10" text color="primary">
@@ -39,9 +39,11 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions width="400" class="text-center">
-          <v-btn x-small>Forgot password?</v-btn>
+          <!-- <v-btn x-small>Forgot password?</v-btn> -->
+          <router-link tag="li" :to="{ name: 'Login' }">Forgot password?</router-link>
           <v-spacer></v-spacer>
-          <v-btn x-small>Register</v-btn>
+          <!-- <v-btn x-small>Register</v-btn> -->
+          <router-link tag="li" :to="{ name: 'SignUp' }">Register</router-link>
         </v-card-actions>
       </v-card>
     </v-row>
@@ -53,6 +55,9 @@ export default {
   name: 'Login',
   data() {
     return {
+      // colors:
+      //   'linear-gradient(56deg, rgba(59,57,94,1) 0%, rgba(40,189,213,1) 90%, rgba(245,245,245,1) 100%)',
+
       showPassword: false,
       username: '',
       password: '',
@@ -90,6 +95,7 @@ export default {
     rgba(40, 189, 213, 1) 90%,
     rgba(245, 245, 245, 1) 100%
   );
+  height: 100%;
 }
 
 .error-card {
@@ -103,5 +109,18 @@ export default {
 
 .error-list {
   list-style-type: none;
+}
+
+li {
+  color: #3399ff;
+  list-style-type: none;
+}
+
+li:hover,
+li.router-link-active,
+li.router-link-exact-active {
+  cursor: pointer;
+  text-decoration: none;
+  color: #004d99;
 }
 </style>

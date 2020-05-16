@@ -61,6 +61,16 @@ const actions = {
       commit('set_error_message', error.response.data.error);
     }
   },
+  async createAccount({ commit }, payload) {
+    try {
+      const response = await UserRepository.create(payload);
+      commit('set_user', response.user);
+      commit('set_error_message', '');
+      jwt.saveToken(response.access_token);
+    } catch (error) {
+      commit('set_error_message', error.response.data.error);
+    }
+  },
   reset({ commit }) {
     commit('reset');
   }
