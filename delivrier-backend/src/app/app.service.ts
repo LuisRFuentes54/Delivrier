@@ -9,8 +9,4 @@ export class AppService {
     private readonly logger: Logger,
   ) { }
 
-  getHello(): string {
-    this.logger.info('Log');
-    return 'Hello World!';
-  }
 }

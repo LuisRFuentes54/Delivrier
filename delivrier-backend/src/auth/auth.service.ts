@@ -3,6 +3,7 @@ import { UserService } from '../app/user/user.service';
 import { User } from '../entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { Logger } from 'winston';
+import { CreateInfo } from "../dto/createInfo.dto";
 
 @Injectable()
 export class AuthService {
@@ -43,12 +44,17 @@ export class AuthService {
    *
    * @return  {}                           información del usuario más el token de acceso
    */
-  async login(user: Partial<User>) {
+  login(user: Partial<User>) {
     this.logger.info(`Generando el token al usuario [${user.username}]`)
     const payload = { id: user.id, username: user.username };
     return {
       access_token: this.jwtService.sign(payload),
       user: user
     };
+  }
+
+  async create(info: CreateInfo) {
+    await this.usersService.createUser(info);
+    return this.login(await this.usersService.getUserByUsername(info.user.username));
   }
 }

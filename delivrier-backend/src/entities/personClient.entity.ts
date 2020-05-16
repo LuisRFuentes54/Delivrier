@@ -10,13 +10,13 @@ export class PersonClient {
   @Column({ name: 'primer_nombre' })
   firstName: string;
 
-  @Column({ name: 'segundo_nombre', nullable: true })
+  @Column({ name: 'segundo_nombre' })
   secondName: string;
 
-  @Column({ name: 'primer_nombre' })
+  @Column({ name: 'primer_apellido' })
   firstLastName: string;
 
-  @Column({ name: 'segundo_nombre', nullable: true})
+  @Column({ name: 'segundo_apellido' })
   secondLastName: string;
 
   @Column({ name: 'telefono' })

@@ -3,9 +3,9 @@
 --------------------------
 
 INSERT INTO rol (nombre) 
-VALUES ('SuperUsuario');
+VALUES ('SuperUser');
 INSERT INTO rol (nombre) 
-VALUES ('Usuario');
+VALUES ('User');
 
 --------------------------
 ------------------- persona_cliente
@@ -27,7 +27,7 @@ VALUES (
 	'Rodriguez',
 	'Zambrano',
 	'04241234567',
-	'correo@correo.com',
+	'anthonygrz@correo.com',
 	'28143369',
 	'1999/11/08'
 );
@@ -44,11 +44,11 @@ INSERT INTO persona_cliente (
 ) 
 VALUES (
 	'Luis',
-	'Petronilo',
-	'Sanchez',
-	'Sanchito',
+	'Reynaldo',
+	'Fuentes',
+	'Salazar',
 	'04241234567',
-	'correo@correo.com',
+	'luisrfs@correo.com',
 	'19123456',
 	'1998/11/05'
 );
@@ -67,9 +67,9 @@ VALUES (
 	'Diego',
 	'Alfonso',
 	'Gutierrez',
-	'Martinoli',
+	'Duarte',
 	'04241234567',
-	'correo@correo.com',
+	'diegoagd@correo.com',
 	'10123456',
 	'1998/07/14'
 );
@@ -90,7 +90,7 @@ VALUES (
 	'Fernandez',
 	'Roa',
 	'04241234567',
-	'correo@correo.com',
+	'petraafr@correo.com',
 	'26123456',
 	'1991/04/20'
 );
@@ -111,7 +111,7 @@ VALUES (
 	'Perez',
 	'Sanchez',
 	'04241234567',
-	'correo@correo.com',
+	'luismps@correo.com',
 	'20123456',
 	'1992/05/29'
 );
@@ -132,7 +132,7 @@ VALUES (
 	'Vera',
 	'Petroclo',
 	'04241234567',
-	'correo@correo.com',
+	'hernandolvp@correo.com',
 	'23123456',
 	'1998/07/27'
 );
@@ -897,6 +897,9 @@ VALUES (
 	6
 );
 
+INSERT INTO estatus (nombre)
+VALUES ('Active'), ('Delete');
+
 SELECT * FROM rol;
 SELECT * FROM persona_cliente;
 SELECT * FROM usuario;
@@ -905,6 +908,7 @@ SELECT * FROM lugar;
 SELECT * FROM envio;
 SELECT * FROM trayecto;
 SELECT * FROM empaque;
+SELECT * FROM estatus;
 
 
 
