@@ -13,10 +13,10 @@ export class Parameter {
   @Column({ name: 'unidad'})
   unit: string;
 
-  @Column({ name: 'valor_maximo'})
+  @Column({ name: 'valor_maximo', nullable: true })
   maxValue: number;
 
-  @Column({ name: 'valor_minimo'})
+  @Column({ name: 'valor_minimo', nullable: true })
   minValue: number;
 
   @JoinColumn({ name: 'fk_parametro' })

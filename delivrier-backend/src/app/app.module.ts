@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from '../auth/auth.module';
 import { WinstonModule } from 'nest-winston';
+import { AuthModule } from '../auth/auth.module';
 import { WinstonOptions } from "../logger/winstonOptions";
 import { UserModule } from './user/user.module';
+import { EmailModule } from "../email/email.module";
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     WinstonModule.forRoot(WinstonOptions),
     UserModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

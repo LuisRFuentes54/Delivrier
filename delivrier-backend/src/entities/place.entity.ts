@@ -10,10 +10,10 @@ export class Place {
   @Column({ name: 'direccion' })
   name: string;
 
-  @Column({ name: 'altitud' })
+  @Column({ name: 'altitud', nullable: true })
   altitude: number;
 
-  @Column({ name: 'longitud' })
+  @Column({ name: 'longitud', nullable: true })
   length: number;
 
   @Column({ name: 'zip' })

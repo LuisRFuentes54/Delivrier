@@ -1,14 +1,18 @@
 import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
-import { UserService } from '../app/user/user.service';
-import { User } from '../entities/user.entity';
+import { SendGridService } from "@anchan828/nest-sendgrid";
 import { JwtService } from '@nestjs/jwt';
 import { Logger } from 'winston';
+import { UserService } from '../app/user/user.service';
+import { EmailService } from "../email/email.service";
+import { User } from '../entities/user.entity';
 import { CreateInfo } from "../dto/createInfo.dto";
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly sendGrid: SendGridService,
     private readonly usersService: UserService,
+    private readonly emailService: EmailService,
     private readonly jwtService: JwtService,
     @Inject('winston')
     private readonly logger: Logger,
@@ -55,6 +59,7 @@ export class AuthService {
 
   async create(info: CreateInfo) {
     await this.usersService.createUser(info);
+    await this.emailService.sendWelcomeEmail(info.email);
     return this.login(await this.usersService.getUserByUsername(info.user.username));
   }
 }

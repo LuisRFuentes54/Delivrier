@@ -13,7 +13,7 @@ export class Packing {
   @Column({ name: 'descripcion'})
   description: string;
 
-  @Column({ name: 'alto'})
+  @Column({ name: 'alto', nullable: true })
   heigth: number;
 
   @Column({ name: 'ancho'})

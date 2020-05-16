@@ -7,10 +7,10 @@ export class Notification {
   @PrimaryGeneratedColumn({ name: 'clave' })
   id: number;
 
-  @Column({ name: 'nombre' })
+  @Column({ name: 'nombre', nullable: true })
   name: string;
 
-  @Column({ name: 'descripcion' })
+  @Column({ name: 'descripcion', nullable: true })
   description: string;
 
   @JoinColumn({ name: 'fk_usuario' })
