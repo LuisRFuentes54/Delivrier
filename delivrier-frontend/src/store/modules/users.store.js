@@ -66,7 +66,7 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
-      commit('set_error_message', error.response.data.error);
+      commit('set_error_message', error.response.data.message);
     }
   },
   reset({ commit }) {

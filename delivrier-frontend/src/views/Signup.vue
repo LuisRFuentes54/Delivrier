@@ -162,9 +162,7 @@ export default {
       this.errors = [];
       if (
         this.firstName &&
-        this.secondName &&
         this.firstLastName &&
-        this.secondLastName &&
         this.phoneNumber &&
         this.email &&
         this.birthDate &&
@@ -172,7 +170,7 @@ export default {
         this.username &&
         this.password
       ) {
-        // let errorMessage = '';
+        let errorMessage = '';
         let person = {
           firstName: this.firstName,
           secondName: this.secondName,
@@ -188,16 +186,13 @@ export default {
           }
         };
         await this.$store.dispatch('users/createAccount', person);
-        // errorMessage = this.$store.getters['users/getError'].error;
-        // if (errorMessage === 'Unauthorized')
-        //   this.errors.push('Invalid credentials.');
+        errorMessage = this.$store.getters['users/getError'].error;
+        if (errorMessage !== '') this.errors.push(errorMessage);
+        console.log(this.errors);
         if (this.errors.length === 0) this.$router.push('home');
       } else {
         if (!this.firstName) this.errors.push('First Name required.');
-        if (!this.secondName) this.errors.push('Second Name required.');
         if (!this.firstLastName) this.errors.push('First Last Name required.');
-        if (!this.secondLastName)
-          this.errors.push('Second Last Name required.');
         if (!this.phoneNumber) this.errors.push('Phone Number required.');
         if (!this.email) this.errors.push('Email required.');
         else if (!this.validEmail(this.email)) {

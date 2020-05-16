@@ -13,7 +13,7 @@ CREATE TABLE persona_cliente (
 	segundo_nombre varchar(20),
 	primer_apellido varchar(20) NOT NULL,
 	segundo_apellido varchar(20),
-	telefono varchar(12) NOT NULL,
+	telefono varchar(15) NOT NULL,
 	correo varchar(40) UNIQUE NOT NULL,
 	id integer UNIQUE NOT NULL,
 	foto text NOT NULL DEFAULT 'None',
