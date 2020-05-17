@@ -28,16 +28,16 @@ export class AuthService {
    */
   async validateUser(username: string, password: string): Promise<User>{
     this.logger.info(`Validando entrada al usuario [${username}]`)
-    const user : User = await this.usersService.getUserByUsername(username);
+    const user : User = await this.usersService.getUserByUsername(username,'User');
     if (user){
       if(user.password === password)
         return user;
       else{
-        this.logger.error(`Hubo un problema mientras el usuario [${username}] trataba de ingresar`);
+        this.logger.error(`Hubo un problema mientras el usuario [${username}] trataba de ingresar, la contraseña ingresada no es correcta`);
         return null;
       }
     }
-    this.logger.error(`Hubo un problema mientras el usuario [${username}] trataba de ingresar`);
+    this.logger.error(`Hubo un problema mientras el usuario [${username}] trataba de ingresar, el nombre de usuario no esta registrado`);
     return null;
   }
 
@@ -60,6 +60,6 @@ export class AuthService {
   async create(info: CreateInfo) {
     await this.usersService.createUser(info);
     await this.emailService.sendWelcomeEmail(info.email);
-    return this.login(await this.usersService.getUserByUsername(info.user.username));
+    return this.login(await this.usersService.getUserByUsername(info.user.username,'User'));
   }
 }

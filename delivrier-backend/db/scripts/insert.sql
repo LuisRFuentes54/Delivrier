@@ -899,19 +899,3 @@ VALUES (
 
 INSERT INTO estatus (nombre)
 VALUES ('Active'), ('Delete');
-
-SELECT * FROM rol;
-SELECT * FROM persona_cliente;
-SELECT * FROM usuario;
-SELECT * FROM persona_destinatario;
-SELECT * FROM lugar;
-SELECT * FROM envio;
-SELECT * FROM trayecto;
-SELECT * FROM empaque;
-SELECT * FROM estatus;
-
-
-
-
-
-

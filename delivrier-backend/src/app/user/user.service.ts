@@ -24,10 +24,33 @@ export class UserService {
     private readonly logger: Logger,
   ){}
 
-  async getUserByUsername (name: string): Promise<User>{
+  async getRoleByName(roleName: string): Promise<Role> {
+    const role : Role = await this.roleRepository.findOne({
+      where: { name: roleName }
+    });
+    return role;
+  }
+
+  async getStatusByName(statusName: string): Promise<Status> {
+    const status : Status = await this.statusRepository.findOne({
+      where: { name: statusName }
+    });
+    return status;
+  }
+
+  /**
+   * Obtiene el usuario junto a su personaCliente y su rol que posea el nombre de usuario y el rol pasado por parametros
+   *
+   * @param   {string}           name      nombre del usuario a conseguir
+   * @param   {string}           rolename  nombre del rol que debe poseer el usuario
+   *
+   * @return  {Promise<User>}              Usuario que se quiere obtener
+   */
+  async getUserByUsername (name: string, roleName: string): Promise<User>{
+    const roleFind : Role = await this.getRoleByName(roleName);
     const user : User = await this.userRepository.findOne({
-      where: { username: name },
-      relations: ['personClient']
+      where: { username: name, role: roleFind },
+      relations:['personClient','role']
     });
     return user;
   }
@@ -50,20 +73,6 @@ export class UserService {
       return true;
     else
       return false;
-  }
-
-  async getRoleByName(roleName: string): Promise<Role> {
-    const role : Role = await this.roleRepository.findOne({
-      where: { name: roleName }
-    });
-    return role;
-  }
-
-  async getStatusByName(statusName: string): Promise<Status> {
-    const status : Status = await this.statusRepository.findOne({
-      where: { name: statusName }
-    });
-    return status;
   }
 
   async createPersonUser(user: Partial<User>, personID, roleName: string, transactionalEntityManager): Promise<number>{
@@ -121,10 +130,10 @@ export class UserService {
                   await this.createStatusUser({},newUserID,'Active',transactionalEntityManager);
                 }
                 catch(ex){
-                  this.logger.error(`No se pudo crear el usuario [${info.email}], ocurrio un error inesperado | Exception: ex=${ex}`);
+                  this.logger.error(`No se pudo crear el usuario [${info.user.username} | ${info.email}], ocurrio un error inesperado | Exception: ex=${ex}`);
                   if(this.thisEmailIsInUse(info.email))
                     this.deletePersonClient(info.email);
-                  throw new InternalServerErrorException(`Error en la creación de la persona [nombre=${info.firstName}|apellido=${info.firstLastName}`);
+                  throw new InternalServerErrorException(`Error Interno en la creación de la persona`);
                 }
         })
       }
