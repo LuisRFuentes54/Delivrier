@@ -9,27 +9,21 @@
             'display-1': $vuetify.breakpoint.smAndDown,
             'display-3': !$vuetify.breakpoint.smAndDown
           }"
-        >
-          DELIVRIER
-        </h1>
+        >DELIVRIER</h1>
         <h1
           class="d-flex justify-center textColor"
           :class="{
             'subtitle-1': $vuetify.breakpoint.smAndDown,
             'display-1': !$vuetify.breakpoint.smAndDown
           }"
-        >
-          Envíos rápidos, confiables y seguros
-        </h1>
+        >Envíos rápidos, confiables y seguros</h1>
         <h1
           class="d-flex justify-center textColor"
           :class="{
             'subtitle-1': $vuetify.breakpoint.smAndDown,
             'display-1': !$vuetify.breakpoint.smAndDown
           }"
-        >
-          Pensamos fuera de la caja
-        </h1>
+        >Pensamos fuera de la caja</h1>
       </v-col>
     </v-row>
     <br v-if="$vuetify.breakpoint.mdAndUp" />
@@ -47,11 +41,11 @@
           color="#FF6200"
           :large="!$vuetify.breakpoint.smAndDown"
           dark
-          >Realizar Envío</v-btn
-        >
+          @click="route('SignUp')"
+        >Realizar Envío</v-btn>
       </v-col>
 
-      <v-col cols="12" class="d-flex justify-center align-center ">
+      <v-col cols="12" class="d-flex justify-center align-center">
         <br v-if="$vuetify.breakpoint.mdAndUp" />
         <br v-if="$vuetify.breakpoint.mdAndUp" />
         <br v-if="$vuetify.breakpoint.mdAndUp" />
@@ -63,8 +57,7 @@
           :large="!$vuetify.breakpoint.smAndDown"
           class="font-weight-bold textColorOrange"
           @click="route('Rastreo')"
-          >Rastrear Envío</v-btn
-        >
+        >Rastrear Envío</v-btn>
       </v-col>
       <v-col cols="0" md="3"></v-col>
     </v-row>
@@ -73,7 +66,7 @@
 
 <script>
 export default {
-  name: "HomeHeader",
+  name: 'HomeHeader',
 
   data: () => ({
     //

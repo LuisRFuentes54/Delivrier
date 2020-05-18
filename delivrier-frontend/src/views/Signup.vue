@@ -188,7 +188,6 @@ export default {
         await this.$store.dispatch('users/createAccount', person);
         errorMessage = this.$store.getters['users/getError'].error;
         if (errorMessage !== '') this.errors.push(errorMessage);
-        console.log(this.errors);
         if (this.errors.length === 0) this.$router.push('home');
       } else {
         if (!this.firstName) this.errors.push('First Name required.');

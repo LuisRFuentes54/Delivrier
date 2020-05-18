@@ -121,7 +121,7 @@ export default {
         icon: 'mdi-login-variant',
         routeName: 'Login'
       },
-      { title: 'Registrarse', icon: 'mdi-account-circle', routeName: '' }
+      { title: 'Registrarse', icon: 'mdi-account-circle', routeName: 'SignUp' }
     ],
     currentProfileOption: '',
     languages: ['Español', 'English'],

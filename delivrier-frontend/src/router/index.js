@@ -2,8 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import jwt from '../common/jwt.service';
 import { VueEasyJwt } from 'vue-easy-jwt';
+import store from '../store';
 const vueEasyJwt = new VueEasyJwt();
-
 
 Vue.use(VueRouter);
 
@@ -99,6 +99,72 @@ const routes = [
     ]
   },
   {
+    path: '/admin',
+    name: 'AdminPlatform',
+    redirect: '/admin/deliveries',
+    meta: { requiresAuth: true },
+    component: () =>
+      import(/* webpackChunkName: "platform" */ '../views/Platform.vue'),
+    children: [
+      {
+        path: '/admin/deliveries',
+        name: 'AdminDeliveries',
+        component: () =>
+          import(
+            /* webpackChunkName: "admindeliveries" */ '../views/backoffice/AdminDeliveries.vue'
+          )
+      },
+      {
+        path: '/admin/delivery-plan',
+        name: 'AdminDeliveryPlans',
+        component: () =>
+          import(
+            /* webpackChunkName: "admindeliveryplans" */ '../views/backoffice/AdminDeliveryPlans.vue'
+          )
+      },
+      {
+        path: '/admin/insurance',
+        name: 'AdminInsurance',
+        component: () =>
+          import(
+            /* webpackChunkName: "admininsurance" */ '../views/backoffice/AdminInsurance.vue'
+          )
+      },
+      {
+        path: '/admin/office',
+        name: 'AdminOffices',
+        component: () =>
+          import(
+            /* webpackChunkName: "adminoffices" */ '../views/backoffice/AdminOffices.vue'
+          )
+      },
+      {
+        path: '/admin/packing',
+        name: 'AdminPacking',
+        component: () =>
+          import(
+            /* webpackChunkName: "adminpacking" */ '../views/backoffice/AdminPacking.vue'
+          )
+      },
+      {
+        path: '/admin/setting',
+        name: 'AdminSettings',
+        component: () =>
+          import(
+            /* webpackChunkName: "adminsettings" */ '../views/backoffice/AdminSettings.vue'
+          )
+      },
+      {
+        path: '/admin/user',
+        name: 'AdminUsers',
+        component: () =>
+          import(
+            /* webpackChunkName: "adminuser" */ '../views/backoffice/AdminUsers.vue'
+          )
+      }
+    ]
+  },
+  {
     path: '/login',
     name: 'Login',
     // route level code-splitting
@@ -136,6 +202,19 @@ router.beforeEach((to, from, next) => {
         jwt.destroyToken();
         next({ name: 'LandingPage' });
       } else {
+        if (to.name.includes('Admin')) {
+          store.getters['users/getUser'] &&
+          store.getters['users/getUser'].role.id == 1
+            ? next()
+            : next('LandingPage');
+        } else {
+          if (route.name === 'Platform') {
+            store.getters['users/getUser'] &&
+            store.getters['users/getUser'].role.id == 2
+              ? next()
+              : next('LandingPage');
+          }
+        }
         next();
       }
     } else {

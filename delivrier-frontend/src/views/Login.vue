@@ -39,10 +39,8 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions width="400" class="text-center">
-          <!-- <v-btn x-small>Forgot password?</v-btn> -->
           <router-link tag="li" :to="{ name: 'Login' }">Forgot password?</router-link>
           <v-spacer></v-spacer>
-          <!-- <v-btn x-small>Register</v-btn> -->
           <router-link tag="li" :to="{ name: 'SignUp' }">Register</router-link>
         </v-card-actions>
       </v-card>
@@ -55,9 +53,6 @@ export default {
   name: 'Login',
   data() {
     return {
-      // colors:
-      //   'linear-gradient(56deg, rgba(59,57,94,1) 0%, rgba(40,189,213,1) 90%, rgba(245,245,245,1) 100%)',
-
       showPassword: false,
       username: '',
       password: '',
@@ -77,7 +72,11 @@ export default {
         errorMessage = this.$store.getters['users/getError'].error;
         if (errorMessage === 'Unauthorized')
           this.errors.push('Invalid credentials.');
-        if (this.errors.length === 0) this.$router.push({ name: 'Platform' });
+        if (this.errors.length === 0) {
+          this.$store.getters['users/getUser'].role.id == 2
+            ? this.$router.push({ name: 'Platform' })
+            : this.$router.push({ name: 'AdminPlatform' });
+        }
       } else {
         if (!this.username) this.errors.push('Username required.');
         if (!this.password) this.errors.push('Password required.');
