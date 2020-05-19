@@ -56,7 +56,8 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
-      commit('set_error_message', error.response.data.error);
+      console.log(error.response.data.error);
+      commit('set_error_message', 'An error has occurred trying to login.');
     }
   },
   async authorizeGoogle({ commit }) {
@@ -70,7 +71,23 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
-      commit('set_error_message', error.message);
+      console.log(error.message);
+      commit('set_error_message', 'An error has occurred trying to login.');
+    }
+  },
+  async authorizeFacebook({ commit }) {
+    try {
+      let response = await AuthorizeRepository.authorizeFacebook();
+      response = await AuthorizeRepository.authorizeFacebookBackend({
+        email: response.user.email,
+        photoURL: response.user.photoURL
+      });
+      commit('set_user', response.user);
+      commit('set_error_message', '');
+      jwt.saveToken(response.access_token);
+    } catch (error) {
+      console.log(error.message);
+      commit('set_error_message', 'An error has occurred trying to login.');
     }
   },
   async createAccount({ commit }, payload) {

@@ -12,5 +12,12 @@ export default {
   },
   authorizeGoogleBackend(payload) {
     return httpClient.post(`${resource}/google`, payload);
+  },
+  authorizeFacebook() {
+    var provider = new firebase.auth.FacebookAuthProvider();
+    return firebase.auth().signInWithPopup(provider);
+  },
+  authorizeFacebookBackend(payload) {
+    return httpClient.post(`${resource}/facebook`, payload);
   }
 };
