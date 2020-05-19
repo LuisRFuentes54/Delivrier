@@ -7,7 +7,7 @@
           <v-btn elevation="10" text color="primary">
             <v-icon left>mdi-facebook</v-icon>Facebook
           </v-btn>
-          <v-btn elevation="10" text color="primary">
+          <v-btn @click="loginGoogle" elevation="10" text color="primary">
             <v-icon left color="red">mdi-google</v-icon>Google
           </v-btn>
         </v-card-actions>
@@ -16,7 +16,7 @@
           <v-form>
             <div v-if="errors.length" class="mx-auto mb-5 error-card">
               <ul>
-                <li class="error-list" v-for="(error,index) in errors" :key="index">{{ error }}</li>
+                <li class="error-list" v-for="(error, index) in errors" :key="index">{{ error }}</li>
               </ul>
             </div>
             <v-text-field
@@ -81,6 +81,14 @@ export default {
         if (!this.username) this.errors.push('Username required.');
         if (!this.password) this.errors.push('Password required.');
       }
+    },
+    async loginGoogle() {
+      this.errors = [];
+      let errorMessage = '';
+      await this.$store.dispatch('users/authorizeGoogle');
+      errorMessage = this.$store.getters['users/getError'].error;
+      if (errorMessage !== '') this.errors.push(errorMessage);
+      if (this.errors.length === 0) this.$router.push({ name: 'Platform' });
     }
   }
 };

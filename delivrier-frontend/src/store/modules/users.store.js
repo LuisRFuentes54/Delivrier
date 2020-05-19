@@ -59,6 +59,20 @@ const actions = {
       commit('set_error_message', error.response.data.error);
     }
   },
+  async authorizeGoogle({ commit }) {
+    try {
+      let response = await AuthorizeRepository.authorizeGoogle();
+      response = await AuthorizeRepository.authorizeGoogleBackend({
+        email: response.user.email,
+        photoURL: response.user.photoURL
+      });
+      commit('set_user', response.user);
+      commit('set_error_message', '');
+      jwt.saveToken(response.access_token);
+    } catch (error) {
+      commit('set_error_message', error.message);
+    }
+  },
   async createAccount({ commit }, payload) {
     try {
       const response = await UserRepository.create(payload);
