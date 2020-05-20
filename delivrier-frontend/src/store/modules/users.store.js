@@ -64,8 +64,7 @@ const actions = {
     try {
       let response = await AuthorizeRepository.authorizeGoogle();
       response = await AuthorizeRepository.authorizeGoogleBackend({
-        email: response.user.email,
-        photoURL: response.user.photoURL
+        email: response.user.email
       });
       commit('set_user', response.user);
       commit('set_error_message', '');
@@ -88,6 +87,36 @@ const actions = {
     } catch (error) {
       console.log(error.message);
       commit('set_error_message', 'An error has occurred trying to login.');
+    }
+  },
+  async createAccountGoogle({ commit }) {
+    try {
+      let response = await AuthorizeRepository.authorizeGoogle();
+      let splittedEmail = response.additionalUserInfo.profile.email.split('@');
+      //set user datos firebase
+      commit('set_user', {
+        username: splittedEmail[0],
+        password: null,
+        personCLient: {
+          firstName: response.additionalUserInfo.profile.given_name,
+          secondName: null,
+          firstLastName: response.additionalUserInfo.profile.given_name,
+          secondLastName: null,
+          phoneNumber: null,
+          birthDate: null,
+          identNum: null,
+          email: response.additionalUserInfo.profile.email,
+          photo: response.additionalUserInfo.profile.picture
+        }
+      });
+      response = await AuthorizeRepository.authorizeGoogleBackend({
+        email: response.user.email
+      });
+      commit('set_user', '');
+      commit('set_error_message', '');
+      jwt.saveToken(response.access_token);
+    } catch (error) {
+      commit('set_error_message', error.message);
     }
   },
   async createAccount({ commit }, payload) {
