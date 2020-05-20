@@ -28,7 +28,7 @@ export class AuthService {
    */
   async validateUser(username: string, password: string): Promise<User>{
     this.logger.info(`Validando entrada al usuario [${username}]`)
-    const user : User = await this.usersService.getUserByUsername(username,'User');
+    const user : User = await this.usersService.getUserByUsername(username);
     if (user){
       if(user.password === password)
         return user;
@@ -60,6 +60,19 @@ export class AuthService {
   async create(info: CreateInfo) {
     await this.usersService.createUser(info);
     await this.emailService.sendWelcomeEmail(info.email);
-    return this.login(await this.usersService.getUserByUsername(info.user.username,'User'));
+    return this.login(await this.usersService.getUserByUsername(info.user.username));
+  }
+
+  async validateUserFirebase(email: string) {
+    this.logger.info(`Validando la entrada al sistema desde login federado`)
+    const user : User = await this.usersService.getUserByEmail(email);
+    if (user){
+      this.logger.info(`Validada la entrada del usuario [${user.username}] por login federado`);
+      return this.login(user);
+    }
+    else{
+      this.logger.error(`El usuario que trato de ingresar por login federado no estaba registrado en el sistema`);
+      throw new UnauthorizedException();return null;
+    }
   }
 }

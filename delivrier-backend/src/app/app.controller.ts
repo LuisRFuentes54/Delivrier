@@ -23,4 +23,14 @@ export class AppController {
   register(@Body() info: CreateInfo) {
     return this.authService.create(info);
   }
+
+  @Post('/authorize/google')
+  authorizeLoginGoogle(@Body() info) {
+    return this.authService.validateUserFirebase(info.email);
+  }
+
+  @Post('/authorize/facebook')
+  authorizeLoginFacebook(@Body() info) {
+    return this.authService.validateUserFirebase(info.email);
+  }
 }

@@ -46,10 +46,20 @@ export class UserService {
    *
    * @return  {Promise<User>}              Usuario que se quiere obtener
    */
-  async getUserByUsername (name: string, roleName: string): Promise<User>{
-    const roleFind : Role = await this.getRoleByName(roleName);
+  async getUserByUsername (name: string): Promise<User>{
     const user : User = await this.userRepository.findOne({
-      where: { username: name, role: roleFind },
+      where: { username: name },
+      relations:['personClient','role']
+    });
+    return user;
+  }
+
+  async getUserByEmail (email: string): Promise<User>{
+    const person : PersonClient = await this.personClientRepository.findOne({
+      where: { email: email }
+    });
+    const user : User = await this.userRepository.findOne({
+      where: { personClient: person },
       relations:['personClient','role']
     });
     return user;
@@ -143,7 +153,7 @@ export class UserService {
       }
     }
     else{
-      this.logger.error(`No se puede crear el usuario, el correo [${info.email}] ya esta usado`);
+      this.logger.error(`No se puede crear el usuario, el correo para crear al usuario [${info.user}] ya esta usado`);
       throw new UnauthorizedException("The email is already in use in Delivrier");
     }
   }
