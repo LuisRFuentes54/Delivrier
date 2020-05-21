@@ -1,12 +1,18 @@
 <template>
   <v-container fluid class="gradient">
     <v-row class="gradient" align="center" justify="center">
-      <v-card
-        width="400px"
-        class="ml-5 mr-5 my-auto rounded-card"
-        color="#F8F8FF"
-      >
-        <p class="text-center mt-10 caption grey--text">Sign in with</p>
+      <v-card width="400px" class="ml-5 mr-5 my-auto rounded-card" color="#F8F8FF">
+        <v-card-actions class="justify-center">
+          <v-img
+            alt="Vuetify Logo"
+            class="shrink"
+            src="../assets/delivrier-logo-no-borders.png"
+            transition="scale-transition"
+            width="250"
+          />
+        </v-card-actions>
+
+        <p class="text-center mt-0 caption grey--text">Sign in with</p>
         <v-card-actions class="justify-center">
           <v-btn @click="loginFacebook" elevation="10" text color="primary">
             <v-icon left>mdi-facebook</v-icon>Facebook
@@ -15,20 +21,12 @@
             <v-icon left color="red">mdi-google</v-icon>Google
           </v-btn>
         </v-card-actions>
-        <p class="text-center caption grey--text">
-          Or sign in with credentials
-        </p>
+        <p class="text-center caption grey--text">Or sign in with credentials</p>
         <v-card-text class="text-center">
           <v-form>
             <div v-if="errors.length" class="mx-auto mb-5 error-card">
               <ul>
-                <li
-                  class="error-list"
-                  v-for="(error, index) in errors"
-                  :key="index"
-                >
-                  {{ error }}
-                </li>
+                <li class="error-list" v-for="(error, index) in errors" :key="index">{{ error }}</li>
               </ul>
             </div>
             <v-text-field
@@ -46,14 +44,12 @@
               solo
               v-model="password"
             ></v-text-field>
-            <v-btn large color="primary" @click="login">Login</v-btn>
+            <v-btn block color="primary" @click="login">Login</v-btn>
           </v-form>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions width="400" class="text-center">
-          <router-link tag="li" :to="{ name: 'Login' }"
-            >Forgot password?</router-link
-          >
+          <router-link tag="li" :to="{ name: 'Login' }">Forgot password?</router-link>
           <v-spacer></v-spacer>
           <router-link tag="li" :to="{ name: 'SignUp' }">Register</router-link>
         </v-card-actions>
@@ -99,9 +95,13 @@ export default {
     async loginGoogle() {
       this.errors = [];
       let errorMessage = '';
-      await this.$store.dispatch('users/authorizeGoogle');
+      await this.$store.dispatch('users/createAccountGoogle');
       errorMessage = this.$store.getters['users/getError'].error;
-      if (errorMessage !== '') this.errors.push(errorMessage);
+      if (errorMessage === 'Unauthorized') {
+        this.$router.push({ name: 'SignUpGoogle' });
+        this.errors.push(errorMessage);
+      }
+
       if (this.errors.length === 0) this.$router.push({ name: 'Platform' });
     },
     async loginFacebook() {

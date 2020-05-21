@@ -2,8 +2,17 @@
   <v-container fluid class="gradient">
     <v-row class="gradient" align="center" justify="center">
       <v-card width="950px" class="ml-5 mr-5 my-auto rounded-card" color="#F8F8FF">
+        <v-card-actions class="justify-center">
+          <v-img
+            alt="Vuetify Logo"
+            class="shrink"
+            src="../assets/delivrier-logo-no-borders.png"
+            transition="scale-transition"
+            width="250"
+          />
+        </v-card-actions>
         <p
-          class="text-center caption grey--text mb-0 mt-10"
+          class="text-center caption grey--text mb-0 mt-5"
         >Please, complete your credentials to sign up</p>
         <v-card-text class="text-center">
           <v-form>
@@ -114,17 +123,6 @@
                     v-model="username"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" md="3">
-                  <v-text-field
-                    label="Password"
-                    :type="showPassword ? 'text' : 'password'"
-                    prepend-inner-icon="mdi-lock-open"
-                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    @click:append="showPassword = !showPassword"
-                    solo
-                    v-model="password"
-                  ></v-text-field>
-                </v-col>
               </v-row>
             </v-container>
 
@@ -146,7 +144,6 @@ export default {
   name: 'Signup',
   data() {
     return {
-      showPassword: false,
       firstName: '',
       secondName: '',
       firstLastName: '',
@@ -155,7 +152,6 @@ export default {
       email: '',
       identNum: null,
       username: '',
-      password: '',
       errors: [],
       firstNameBooly: 0,
       secondNameBooly: 0,
@@ -183,8 +179,7 @@ export default {
         this.email &&
         this.birthDate &&
         this.identNum &&
-        this.username &&
-        this.password
+        this.username
       ) {
         let errorMessage = '';
         let person = {
@@ -204,7 +199,9 @@ export default {
         await this.$store.dispatch('users/createAccount', person);
         errorMessage = this.$store.getters['users/getError'].error;
         if (errorMessage !== '') this.errors.push(errorMessage);
-        if (this.errors.length === 0) this.$router.push('home');
+        if (this.errors.length === 0) {
+          this.$router.push({ name: 'Platform' });
+        }
       } else {
         if (!this.firstName) this.errors.push('First Name required.');
         if (!this.firstLastName) this.errors.push('First Last Name required.');
@@ -216,7 +213,6 @@ export default {
         if (!this.birthDate) this.errors.push('Birth Date required.');
         if (!this.identNum) this.errors.push('ID required.');
         if (!this.username) this.errors.push('Username required.');
-        if (!this.password) this.errors.push('Password required.');
       }
     },
     validEmail: function(email) {
@@ -226,7 +222,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.getters['users/getUser']);
     if (this.$store.getters['users/getUser'].personClient.email !== null) {
       this.email = this.$store.getters['users/getUser'].personClient.email;
       this.emailBooly = 1;

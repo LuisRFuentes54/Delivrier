@@ -15,7 +15,7 @@ CREATE TABLE persona_cliente (
 	segundo_apellido varchar(20),
 	telefono varchar(15) NOT NULL,
 	correo varchar(40) UNIQUE NOT NULL,
-	id integer UNIQUE NOT NULL,
+	id bigint UNIQUE NOT NULL,
 	foto text NOT NULL DEFAULT 'None',
 	fecha_nacimiento date NOT NULL
 );
@@ -23,7 +23,7 @@ CREATE TABLE persona_cliente (
 CREATE TABLE usuario (
 	clave serial PRIMARY KEY,
 	usuario varchar(20) UNIQUE NOT NULL,
-	contrasena varchar(20) NOT NULL,
+	contrasena varchar(20),
 	fk_rol integer NOT NULL,
 	fk_persona_cliente integer UNIQUE,
 	FOREIGN KEY (fk_rol) REFERENCES rol(clave),

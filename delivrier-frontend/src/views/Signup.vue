@@ -2,16 +2,16 @@
   <v-container fluid class="gradient">
     <v-row class="gradient" align="center" justify="center">
       <v-card width="950px" class="ml-5 mr-5 my-auto rounded-card" color="#F8F8FF">
-        <p class="text-center mt-10 caption grey--text">Sign in with</p>
         <v-card-actions class="justify-center">
-          <v-btn elevation="10" text color="primary">
-            <v-icon left>mdi-facebook</v-icon>Facebook
-          </v-btn>
-          <v-btn @click="signupGoogle" elevation="10" text color="primary">
-            <v-icon left color="red">mdi-google</v-icon>Google
-          </v-btn>
+          <v-img
+            alt="Vuetify Logo"
+            class="shrink"
+            src="../assets/delivrier-logo-no-borders.png"
+            transition="scale-transition"
+            width="250"
+          />
         </v-card-actions>
-        <p class="text-center caption grey--text">Or sign up with credentials</p>
+        <p class="text-center caption grey--text mt-5 mb-0">Sign up with credentials</p>
         <v-card-text class="text-center">
           <v-form>
             <div v-if="errors.length" class="mx-auto mb-5 error-card">
@@ -202,20 +202,6 @@ export default {
         if (!this.username) this.errors.push('Username required.');
         if (!this.password) this.errors.push('Password required.');
       }
-    },
-    async signupGoogle() {
-      this.errors = [];
-      let errorMessage = '';
-      await this.$store.dispatch('users/createAccountGoogle');
-      errorMessage = this.$store.getters['users/getError'].error;
-      if (errorMessage === 'Unauthorized')
-        this.$router.push({ name: 'SignupGoogle' });
-      if (this.errors.length === 0) this.$router.push({ name: 'Login' });
-    },
-    validEmail: function(email) {
-      //eslint-disable-next-line
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
     }
   }
 };

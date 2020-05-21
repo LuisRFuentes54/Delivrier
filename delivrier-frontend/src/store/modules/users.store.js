@@ -57,21 +57,11 @@ const actions = {
       jwt.saveToken(response.access_token);
     } catch (error) {
       console.log(error.response.data.error);
-      commit('set_error_message', 'An error has occurred trying to login.');
-    }
-  },
-  async authorizeGoogle({ commit }) {
-    try {
-      let response = await AuthorizeRepository.authorizeGoogle();
-      response = await AuthorizeRepository.authorizeGoogleBackend({
-        email: response.user.email
-      });
-      commit('set_user', response.user);
-      commit('set_error_message', '');
-      jwt.saveToken(response.access_token);
-    } catch (error) {
-      console.log(error.message);
-      commit('set_error_message', 'An error has occurred trying to login.');
+      if (error.response.data.error === 'Unauthorized')
+        commit('set_error_message', error.response.data.error);
+      else {
+        commit('set_error_message', 'An error has occurred trying to login.');
+      }
     }
   },
   async authorizeFacebook({ commit }) {
@@ -86,7 +76,11 @@ const actions = {
       jwt.saveToken(response.access_token);
     } catch (error) {
       console.log(error.message);
-      commit('set_error_message', 'An error has occurred trying to login.');
+      if (error.response.data.error === 'Unauthorized')
+        commit('set_error_message', error.response.data.error);
+      else {
+        commit('set_error_message', 'An error has occurred trying to login.');
+      }
     }
   },
   async createAccountGoogle({ commit }) {
@@ -97,10 +91,10 @@ const actions = {
       commit('set_user', {
         username: splittedEmail[0],
         password: null,
-        personCLient: {
+        personClient: {
           firstName: response.additionalUserInfo.profile.given_name,
           secondName: null,
-          firstLastName: response.additionalUserInfo.profile.given_name,
+          firstLastName: response.additionalUserInfo.profile.family_name,
           secondLastName: null,
           phoneNumber: null,
           birthDate: null,
@@ -112,11 +106,16 @@ const actions = {
       response = await AuthorizeRepository.authorizeGoogleBackend({
         email: response.user.email
       });
-      commit('set_user', '');
+      commit('set_user', response.user);
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
-      commit('set_error_message', error.message);
+      console.log(error.response.data.error);
+      if (error.response.data.error === 'Unauthorized')
+        commit('set_error_message', error.response.data.error);
+      else {
+        commit('set_error_message', 'An error has occurred trying to sign in.');
+      }
     }
   },
   async createAccount({ commit }, payload) {
