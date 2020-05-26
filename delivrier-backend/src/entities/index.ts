@@ -4,7 +4,7 @@ import { User } from "./user.entity";
 import { PersonDestinatary } from "./personDestinatary.entity";
 import { Notification } from "./notification.entity";
 import { ShippingType } from "./shippingType.entity";
-import { Secure } from "./secure.entity";
+import { Insurance } from "./insurance.entity";
 import { Place } from "./place.entity";
 import { Office } from "./office.entity";
 import { Shipping } from "./shipping.entity";
@@ -31,7 +31,7 @@ export const entities = [
     PersonDestinatary,
     Notification,
     ShippingType,
-    Secure,
+    Insurance,
     Place,
     Office,
     Shipping,

@@ -3,7 +3,7 @@ import { Shipping } from "./shipping.entity";
 import { SecureStatus } from "./secureStatus.entity";
 
 @Entity({ name: 'seguro' })
-export class Secure {
+export class Insurance {
   @PrimaryGeneratedColumn({ name: 'clave' })
   id: number;
 
@@ -16,9 +16,9 @@ export class Secure {
   @Column({ name: 'tarifa' })
   baseRate: number;
 
-  @OneToMany(type => Shipping, shippings => shippings.secure)
+  @OneToMany(type => Shipping, shippings => shippings.insurance)
   shippings: Shipping[];
 
-  @OneToMany(type => SecureStatus, secureStatus => secureStatus.secure)
+  @OneToMany(type => SecureStatus, secureStatus => secureStatus.insurance)
   secureStatus: SecureStatus[];
 }

@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { EmailModule } from "../email/email.module";
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TrackingModule } from './tracking/tracking.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AppService } from './app.service';
     WinstonModule.forRoot(WinstonOptions),
     UserModule,
     EmailModule,
+    TrackingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

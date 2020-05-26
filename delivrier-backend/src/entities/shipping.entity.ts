@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, ManyToOne, OneToMany } from 'typeorm';
 import { User } from "./user.entity";
-import { Secure } from "./secure.entity";
+import { Insurance } from "./insurance.entity";
 import { PersonDestinatary } from "./personDestinatary.entity";
 import { ShippingType } from "./shippingType.entity";
 import { Road } from "./road.entity";
@@ -22,8 +22,8 @@ export class Shipping {
   user: User;
 
   @JoinColumn({ name: 'fk_seguro' })
-  @ManyToOne(type => Secure, secure => secure.shippings)
-  secure: Secure;
+  @ManyToOne(type => Insurance, insurance => insurance.shippings)
+  insurance: Insurance;
 
   @JoinColumn({ name: 'fk_persona_destinatario' })
   @ManyToOne(type => PersonDestinatary, personDestinatary => personDestinatary.shippings)
