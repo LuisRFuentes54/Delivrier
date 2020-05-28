@@ -16,14 +16,14 @@
             'subtitle-1': $vuetify.breakpoint.smAndDown,
             'display-1': !$vuetify.breakpoint.smAndDown
           }"
-        >Envíos rápidos, confiables y seguros</h1>
+        >{{ term.LP_TITLE_1 }}</h1>
         <h1
           class="d-flex justify-center textColor"
           :class="{
             'subtitle-1': $vuetify.breakpoint.smAndDown,
             'display-1': !$vuetify.breakpoint.smAndDown
           }"
-        >Pensamos fuera de la caja</h1>
+        >{{ term.LP_TITLE_2 }}</h1>
       </v-col>
     </v-row>
     <br v-if="$vuetify.breakpoint.mdAndUp" />
@@ -38,11 +38,11 @@
         <v-btn
           rounded
           class="font-weight-bold"
-          color="#FF6200"
+          color="#5CE1E6"
           :large="!$vuetify.breakpoint.smAndDown"
           dark
           @click="route('SignUp')"
-        >Realizar Envío</v-btn>
+        >{{ term.LP_BUTTOM_1 }}</v-btn>
       </v-col>
 
       <v-col cols="12" class="d-flex justify-center align-center">
@@ -55,9 +55,9 @@
           rounded
           color="white"
           :large="!$vuetify.breakpoint.smAndDown"
-          class="font-weight-bold textColorOrange"
-          @click="route('Rastreo')"
-        >Rastrear Envío</v-btn>
+          class="font-weight-bold textColorBlue"
+          @click="route('Tracking')"
+        >{{ term.LP_BUTTOM_2 }}</v-btn>
       </v-col>
       <v-col cols="0" md="3"></v-col>
     </v-row>
@@ -67,6 +67,10 @@
 <script>
 export default {
   name: 'HomeHeader',
+
+  props: {
+    term: {}
+  },
 
   data: () => ({
     //
@@ -83,7 +87,7 @@ export default {
 .textColor {
   color: white;
 }
-.textColorOrange {
-  color: #ff6200 !important;
+.textColorBlue {
+  color: #5CE1E6 !important;
 }
 </style>

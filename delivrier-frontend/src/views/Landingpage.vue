@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="parallax" height=" 70vh !important">
-      <Navbar />
-      <HomeHeader />
+      <Navbar @changeLanguage="changeLanguage"/>
+      <HomeHeader :term="term"/>
     </div>
     <router-view></router-view>
-    <Footer />
+    <Footer :term="term"/>
   </div>
 </template>
 
@@ -22,9 +22,22 @@ export default {
     Footer
   },
 
-  data: () => ({
-    //
-  })
+  data() {
+    return {
+      term: this.$store.getters['language/getTerms']
+    };
+  },
+
+  methods: {
+    async changeLanguage() {
+      const lang = this.$store.getters['language/getLang'];
+      if (lang === "en")
+        await this.$store.dispatch('language/updateTerms','es');
+      else
+        await this.$store.dispatch('language/updateTerms','en');
+      this.term = this.$store.getters['language/getTerms'];
+    }
+  }
 };
 </script>
 <style scoped>

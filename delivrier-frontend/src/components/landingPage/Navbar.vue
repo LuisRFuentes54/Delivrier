@@ -49,6 +49,7 @@
           prepend-icon="mdi-web"
           class="mt-n1"
           single-line
+          @change="changeLanguage"
         ></v-select>
       </v-col>
       <v-col cols="2">
@@ -110,26 +111,49 @@ export default {
   data: () => ({
     navbarOptions: [
       { title: 'Home', routeName: 'Home' },
-      { title: 'Envíos', routeName: 'Delivery' },
-      { title: 'Rastreo', routeName: 'Tracking' },
-      { title: 'Cotización', routeName: 'Pricing' }
+      { title: 'Delivery', routeName: 'Delivery' },
+      { title: 'Tracking', routeName: 'Tracking' },
+      { title: 'Pricing', routeName: 'Pricing' }
     ],
     currentOption: 1,
     profileOptions: [
       {
-        title: 'Iniciar sesión',
+        title: 'Login',
+        icon: 'mdi-login-variant',
+        routeName: 'Login'
+      },
+      { title: 'Sing Up', icon: 'mdi-account-circle', routeName: 'SignUp' }
+    ],
+    currentProfileOption: '',
+    languages: ['English', 'Español'],
+    language: 'English',
+    navbarOptionsAlt: [
+      { title: 'Principal', routeName: 'Home' },
+      { title: 'Envios', routeName: 'Delivery' },
+      { title: 'Rastreo', routeName: 'Tracking' },
+      { title: 'Precios', routeName: 'Pricing' }
+    ],
+    profileOptionsAlt: [
+      {
+        title: 'Iniciar Sesión',
         icon: 'mdi-login-variant',
         routeName: 'Login'
       },
       { title: 'Registrarse', icon: 'mdi-account-circle', routeName: 'SignUp' }
     ],
-    currentProfileOption: '',
-    languages: ['Español', 'English'],
-    language: 'Español'
   }),
   methods: {
     route(option) {
       this.$router.push({ name: `${option}` });
+    },
+    changeLanguage() {
+      const changeProfile = this.profileOptions;
+      this.profileOptions = this.profileOptionsAlt;
+      this.profileOptionsAlt = changeProfile;
+      const changeNavBar = this.navbarOptions;
+      this.navbarOptions = this.navbarOptionsAlt;
+      this.navbarOptionsAlt = changeNavBar;
+      this.$emit('changeLanguage');
     }
   },
   watch: {

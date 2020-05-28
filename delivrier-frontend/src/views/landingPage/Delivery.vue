@@ -9,20 +9,15 @@
         <v-col cols="12">
           <br />
 
-          <h1 class="display-2 font-weight-medium">Envíos</h1>
+          <h1 class="display-2 font-weight-medium">{{ term.DEL_TITLE_1 }}</h1>
           <br />
           <v-container>
             <p class="subtitle-1 font-weight-regular ">
-              <span class="textColorOrange">Delivrier</span> ofrece envíos de
-              paquetes a cualquier parte del territorio estadounidense. Se basa
-              en una modalidad Oficina a Puerta, es decir, el usuario entrega el
-              paquete a envíar en una de nuestras oficinas y nosotros nos
-              hacemos cargo del resto, entregando el paquete a la dirección de
-              destino
+              <span class="textColorBlue">Delivrier</span> {{ term.DEL_PAR_1 }}
             </p>
           </v-container>
-          <p class="title font-weight-bold textColorOrange">
-            ¡Realiza tu primer envío hoy!
+          <p class="title font-weight-bold textColorBlue">
+            {{ term.DEL_PAR_2 }}
           </p>
         </v-col>
       </v-row>
@@ -38,13 +33,11 @@
         <v-col cols="12">
           <br />
 
-          <h1 class="display-2 font-weight-medium">Pasos</h1>
+          <h1 class="display-2 font-weight-medium">{{ term.DEL_TITLE_2 }}</h1>
           <br />
           <v-container>
             <p class="subtitle-1 font-weight-regular ">
-              Queremos ofrecer a nuestros usuarios una forma sencilla y rápida
-              de realizar todo el proceso de envío de paquetes. Para ello
-              nuestros clientes solo deben seguir 3 sencillos pasos:
+              {{ term.DEL_PAR_3 }}
             </p>
             <v-container>
               <v-row class="text-center">
@@ -69,15 +62,14 @@
                     </v-row>
 
                     <v-card-title class="justify-center breakWordRule"
-                      >1. Inicia Sesión</v-card-title
+                      >{{ term.DEL_SUBTITLE_1 }}</v-card-title
                     >
 
                     <v-card-text
                       class="subtitle-1 font-weight-medium breakWordRule"
                     >
                       <div>
-                        Resgistrate o inicia sesión en nuestra plataforma de
-                        envíos en línea
+                        {{ term.DEL_PAR_4 }}
                       </div>
                     </v-card-text>
                   </v-card>
@@ -103,15 +95,14 @@
                     </v-row>
 
                     <v-card-title class="justify-center breakWordRule"
-                      >2. Registra tu envío</v-card-title
+                      >{{ term.DEL_SUBTITLE_2 }}</v-card-title
                     >
 
                     <v-card-text
                       class="subtitle-1 font-weight-medium breakWordRule"
                     >
                       <div>
-                        Especifica las caraterísticas de tu envío así como
-                        servicios adicionales
+                        {{ term.DEL_PAR_5 }}
                       </div>
                     </v-card-text>
                   </v-card>
@@ -137,15 +128,14 @@
                     </v-row>
 
                     <v-card-title class="justify-center breakWordRule"
-                      >3. Monitorea tu envío</v-card-title
+                      >{{ term.DEL_SUBTITLE_3 }}</v-card-title
                     >
 
                     <v-card-text
                       class="subtitle-1 font-weight-medium breakWordRule"
                     >
                       <div>
-                        Monitorea en todo momento el estado y posición de tu
-                        envío
+                        {{ term.DEL_PAR_6 }}
                       </div>
                     </v-card-text>
                   </v-card>
@@ -167,12 +157,11 @@
         <v-col cols="12">
           <br />
 
-          <h1 class="display-2 font-weight-medium">Planes de envío</h1>
+          <h1 class="display-2 font-weight-medium">{{ term.DEL_TITLE_3 }}</h1>
           <br />
           <v-container>
             <p class="subtitle-1 font-weight-regular">
-              Ofrecemos a nuestros clientes varios planes de envío según sus
-              necesidades:
+              {{ term.DEL_PAR_7 }}
             </p>
             <v-container>
               <v-row class="text-center">
@@ -204,9 +193,7 @@
                       class="subtitle-1 font-weight-medium breakWordRule"
                     >
                       <div>
-                        Este es el tipo de envío básico. No tiene incluido
-                        consideraciones especiales y por ello es el más barato.
-                        Su paquete llegará a su destino en máximo 3 semanas
+                        {{ term.DEL_PAR_8 }}
                       </div>
                     </v-card-text>
                   </v-card>
@@ -239,10 +226,7 @@
                       class="subtitle-1 font-weight-medium breakWordRule"
                     >
                       <div>
-                        Pone especial atención en el cuidado y trato de los
-                        paquetes. Es el mejor servicio para paquetes frágiles.
-                        Además, el tiempo máximo de llegada del paquete a su
-                        destino es de 1 semana
+                        {{ term.DEL_PAR_9 }}
                       </div>
                     </v-card-text>
                   </v-card>
@@ -275,10 +259,7 @@
                       class="subtitle-1 font-weight-medium breakWordRule"
                     >
                       <div>
-                        Este servicio se enfoca en la rapidez de entrega. Al
-                        seleccionarlo garantizamos que el tiempo de llegada de
-                        su paquete a su destino no superará los 3 días. Es el
-                        mejor servicio para entregas urgentes.
+                        {{ term.DEL_PAR_10 }}
                       </div>
                     </v-card-text>
                   </v-card>
@@ -296,14 +277,27 @@
 export default {
   name: "Delivery",
 
-  data: () => ({
-    //
-  })
+  data() {
+    return {
+      term: this.$store.getters['language/getTerms']
+    };
+  },
+
+  computed: {
+    lang () {
+      return this.$store.getters['language/getTerms']; 
+    }
+  },
+  watch: {
+    lang () {
+      this.term = this.$store.getters['language/getTerms'];
+    }
+  }
 };
 </script>
 <style scoped>
-.textColorOrange {
-  color: #ff6200 !important;
+.textColorBlue {
+  color: #5CE1E6 !important;
 }
 .backgroundAlternative {
   background-color: #fafafa !important;

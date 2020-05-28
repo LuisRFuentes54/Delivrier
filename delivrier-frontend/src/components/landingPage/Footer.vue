@@ -10,7 +10,7 @@
           cols="12"
           sm="6"
         >
-          <div class=" subtitle-1">Contacto:</div>
+          <div class=" subtitle-1">{{ term.LP_FOOTER_CONTACT }}</div>
           <div class="footerTextColor subtitle-1 font-weight-bold ">
             c2.delivrier@gmail.com
           </div>
@@ -38,7 +38,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Footer",
+
+  props: {
+    term: {}
+  },
+};
 </script>
 
 <style scoped>
@@ -49,6 +55,6 @@ export default {};
   height: 300px;
 }
 .footerTextColor {
-  color: #ff6200 !important;
+  color: #5CE1E6 !important;
 }
 </style>

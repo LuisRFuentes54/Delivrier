@@ -11,15 +11,12 @@
         <v-col cols="12">
           <br />
 
-          <h1 class="display-2 font-weight-medium">Cotizacón</h1>
+          <h1 class="display-2 font-weight-medium">{{ term.PRI_TITLE }}</h1>
           <br />
           <v-container>
             <p class="subtitle-1 font-weight-regular ">
-              En
-              <span class="textColorOrange">Delivrier</span> nos importa la
-              transparencia con nuestros clientes. Al pagar por nuestros
-              servicios queremos hacerte saber exactamente de los aspectos a
-              tomar en consideración para el costo final
+              {{ term.PRI_PAR_1 }}
+              <span class="textColorBlue">Delivrier</span> {{ term.PRI_PAR_2 }}
             </p>
           </v-container>
         </v-col>
@@ -55,17 +52,14 @@
                   </v-row>
 
                   <v-card-title class="justify-center breakWordRule"
-                    >Plan de envío</v-card-title
+                    >{{ term.PRI_SUBTITLE_1 }}</v-card-title
                   >
 
                   <v-card-text
                     class="subtitle-1 font-weight-medium breakWordRule"
                   >
                     <div>
-                      Se ofrecen distintos planes de envío con características
-                      diferentes. Cada uno de dichos planes poseen un costo base
-                      que será modificado por las demás carácterísticas del
-                      envío
+                      {{ term.PRI_PAR_3 }}
                     </div>
                   </v-card-text>
                 </v-card>
@@ -91,16 +85,14 @@
                   </v-row>
 
                   <v-card-title class="justify-center breakWordRule"
-                    >Peso</v-card-title
+                    >{{ term.PRI_SUBTITLE_2 }}</v-card-title
                   >
 
                   <v-card-text
                     class="subtitle-1 font-weight-medium breakWordRule"
                   >
                     <div>
-                      El peso de tu paquete juega un papel importante en el
-                      precio final de tu envío. Minetras más pesado el paquete
-                      se requiere mayor cuidado para su movilización
+                      {{ term.PRI_PAR_4 }}
                     </div>
                   </v-card-text>
                 </v-card>
@@ -126,15 +118,14 @@
                   </v-row>
 
                   <v-card-title class="justify-center breakWordRule"
-                    >Cantidad de paquetes</v-card-title
+                    >{{ term.PRI_SUBTITLE_3 }}</v-card-title
                   >
 
                   <v-card-text
                     class="subtitle-1 font-weight-medium breakWordRule"
                   >
                     <div>
-                      En un mismo envío puedes incluir varios paquetes. La
-                      cantidad de tu paquetes es proporcional al precio
+                      {{ term.PRI_PAR_5 }}
                     </div>
                   </v-card-text>
                 </v-card>
@@ -162,17 +153,14 @@
                   </v-row>
 
                   <v-card-title class="justify-center breakWordRule"
-                    >Distancia</v-card-title
+                    >{{ term.PRI_SUBTITLE_4 }}</v-card-title
                   >
 
                   <v-card-text
                     class="subtitle-1 font-weight-medium breakWordRule"
                   >
                     <div>
-                      Para envíos de largas distancias se utiliza mayor cantidad
-                      de combustible. Es por eso que al precio final se le
-                      incluye un pequeño porcentaje proporcional a la distancia
-                      a recorrer
+                      {{ term.PRI_PAR_6 }}
                     </div>
                   </v-card-text>
                 </v-card>
@@ -198,16 +186,14 @@
                   </v-row>
 
                   <v-card-title class="justify-center breakWordRule"
-                    >Empaques</v-card-title
+                    >{{ term.PRI_SUBTITLE_5 }}</v-card-title
                   >
 
                   <v-card-text
                     class="subtitle-1 font-weight-medium breakWordRule"
                   >
                     <div>
-                      Nuestros usuarios pueden seleccionar entre distintos
-                      empaques para sus envíos. Cada empaque posee un precio que
-                      se adiciona directamente al monto del envío final
+                      {{ term.PRI_PAR_7 }}
                     </div>
                   </v-card-text>
                 </v-card>
@@ -233,16 +219,14 @@
                   </v-row>
 
                   <v-card-title class="justify-center breakWordRule"
-                    >Seguros</v-card-title
+                    >{{ term.PRI_SUBTITLE_6 }}</v-card-title
                   >
 
                   <v-card-text
                     class="subtitle-1 font-weight-medium breakWordRule"
                   >
                     <div>
-                      Ofrecemos varios planes de seguros que cubren distintos
-                      porcentajes del valor de los objetos enviados en caso de
-                      extravío o daño
+                      {{ term.PRI_PAR_8 }}
                     </div>
                   </v-card-text>
                 </v-card>
@@ -259,14 +243,26 @@
 export default {
   name: "Pricing",
 
-  data: () => ({
-    //
-  })
+  data() {
+    return {
+      term: this.$store.getters['language/getTerms']
+    };
+  },
+  computed: {
+    lang () {
+      return this.$store.getters['language/getTerms']; 
+    }
+  },
+  watch: {
+    lang () {
+      this.term = this.$store.getters['language/getTerms'];
+    }
+  }
 };
 </script>
 <style scoped>
-.textColorOrange {
-  color: #ff6200 !important;
+.textColorBlue {
+  color: #5CE1E6 !important;
 }
 .backgroundAlternative {
   background-color: #fafafa !important;
