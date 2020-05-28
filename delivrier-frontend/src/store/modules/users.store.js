@@ -3,11 +3,12 @@
 import Repository from '../../http/repositories/repositoryFactory';
 import jwt from '../../common/jwt.service';
 const UserRepository = Repository.get('users');
+const TrackingRepository = Repository.get('tracking');
 const AuthorizeRepository = Repository.get('authorize');
 
 // Initial State object
 const initialState = () => {
-  return { user: {}, error: '' };
+  return { user: {}, tracking_info: {}, error: '' };
 };
 
 // State object
@@ -21,9 +22,12 @@ const getters = {
   getUser(state) {
     return state.user;
   },
+  getTrackingInfo(state) {
+    return state.tracking_info;
+  },
   getUserId(state) {
     return state.user.id;
-  },
+  }
 };
 
 // Mutations
@@ -33,6 +37,9 @@ const mutations = {
   },
   set_error_message(state, error) {
     state.error = error;
+  },
+  set_tracking_info(state, data) {
+    state.tracking_info = data;
   },
   reset(state) {
     const newState = initialState();
@@ -59,7 +66,6 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
-
       console.log(error.response.data.error);
       if (error.response.data.error === 'Unauthorized')
         commit('set_error_message', error.response.data.error);
@@ -79,7 +85,6 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
-
       console.log(error.message);
       if (error.response.data.error === 'Unauthorized')
         commit('set_error_message', error.response.data.error);
@@ -115,7 +120,6 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
-
       console.log(error.response.data.error);
       if (error.response.data.error === 'Unauthorized')
         commit('set_error_message', error.response.data.error);
@@ -132,6 +136,26 @@ const actions = {
       jwt.saveToken(response.access_token);
     } catch (error) {
       commit('set_error_message', error.response.data.message);
+    }
+  },
+  async tracking({ commit }, payload) {
+    try {
+      if (payload !== undefined) {
+        const response = await TrackingRepository.get(payload);
+        commit('set_tracking_info', response);
+        commit('set_error_message', '');
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
+  async pdf({ commit }, payload) {
+    try {
+      const response = await TrackingRepository.sendPDF(payload);
+      console.log('Respuesta al enviar pdf al backend: ', response);
+      commit('set_error_message', '');
+    } catch (error) {
+      console.log('Error al enviar pdf al backend: ', error.response);
     }
   },
   reset({ commit }) {

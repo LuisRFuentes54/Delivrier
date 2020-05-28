@@ -1035,6 +1035,28 @@ INSERT INTO paquete (
 	fk_envio
 ) 
 VALUES (
+	'Platos',
+	6,
+	1
+);
+
+INSERT INTO paquete (
+	descripcion,
+	fk_empaque,
+	fk_envio
+) 
+VALUES (
+	'Pelota',
+	null,
+	1
+);
+
+INSERT INTO paquete (
+	descripcion,
+	fk_empaque,
+	fk_envio
+) 
+VALUES (
 	'Un televisor',
 	7,
 	2
@@ -1061,9 +1083,75 @@ INSERT INTO parametro_paquete (
 	fk_parametro
 ) 
 VALUES (
+	10,
+	1,
+	4
+);
+
+INSERT INTO parametro_paquete (
+	valor,
+	fk_paquete,
+	fk_parametro
+) 
+VALUES (
 	20,
 	2,
 	5
+);
+
+INSERT INTO parametro_paquete (
+	valor,
+	fk_paquete,
+	fk_parametro
+) 
+VALUES (
+	12,
+	2,
+	4
+);
+
+INSERT INTO parametro_paquete (
+	valor,
+	fk_paquete,
+	fk_parametro
+) 
+VALUES (
+	20,
+	3,
+	5
+);
+
+INSERT INTO parametro_paquete (
+	valor,
+	fk_paquete,
+	fk_parametro
+) 
+VALUES (
+	1,
+	3,
+	4
+);
+
+INSERT INTO parametro_paquete (
+	valor,
+	fk_paquete,
+	fk_parametro
+) 
+VALUES (
+	5,
+	4,
+	5
+);
+
+INSERT INTO parametro_paquete (
+	valor,
+	fk_paquete,
+	fk_parametro
+) 
+VALUES (
+	200,
+	4,
+	4
 );
 
 --------------------------

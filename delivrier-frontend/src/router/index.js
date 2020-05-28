@@ -192,6 +192,25 @@ const routes = [
       import(/* webpackChunkName: "Signupgoogle" */ '../views/SignupGoogle.vue')
   },
   {
+    path: '/invoice',
+    name: 'Invoice',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "Invoice" */ '../components/Invoice.vue')
+  },
+  {
+    path: '/invoicepdf/:tracking/:sendEmail',
+    name: 'InvoicePDF',
+    props: true,
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "InvoicePDF" */ '../views/InvoicePDF.vue')
+  },
+  {
     path: '*',
     redirect: '/home'
   }
