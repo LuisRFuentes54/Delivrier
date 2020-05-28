@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { PersonClient } from "./personClient.entity";
 import { Shipping } from "./shipping.entity";
+import { PersonDestinataryStatus } from "./personDestinataryStatus.entity";
 
 @Entity({ name: 'persona_destinatario' })
 export class PersonDestinatary {
@@ -13,10 +14,10 @@ export class PersonDestinatary {
   @Column({ name: 'segundo_nombre', nullable: true })
   secondName: string;
 
-  @Column({ name: 'primer_nombre' })
+  @Column({ name: 'primer_apellido' })
   firstLastName: string;
 
-  @Column({ name: 'segundo_nombre', nullable: true})
+  @Column({ name: 'segundo_apellido', nullable: true})
   secondLastName: string;
 
   @Column({ name: 'telefono' })
@@ -31,4 +32,7 @@ export class PersonDestinatary {
 
   @OneToMany(type => Shipping, shippings => shippings.personDestinatary)
   shippings: Shipping[];
+
+  @OneToMany(type => PersonDestinataryStatus, personDestinataryStatus => personDestinataryStatus.personDestinatary)
+  personDestinataryStatus: PersonDestinataryStatus[];
 }

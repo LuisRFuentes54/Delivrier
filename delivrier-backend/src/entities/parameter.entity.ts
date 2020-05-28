@@ -13,6 +13,9 @@ export class Parameter {
   @Column({ name: 'unidad'})
   unit: string;
 
+  @Column({ name: 'tipo'})
+  type: string;
+
   @Column({ name: 'valor_maximo', nullable: true })
   maxValue: number;
 

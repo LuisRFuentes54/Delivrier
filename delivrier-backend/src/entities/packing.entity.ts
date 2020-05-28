@@ -17,7 +17,7 @@ export class Packing {
   heigth: number;
 
   @Column({ name: 'ancho'})
-  witdh: number;
+  width: number;
 
   @Column({ name: 'largo'})
   large: number;

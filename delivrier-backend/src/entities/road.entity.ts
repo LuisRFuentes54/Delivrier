@@ -8,16 +8,16 @@ export class Road {
   @PrimaryGeneratedColumn({ name: 'clave' })
   id: number;
 
-  @Column({ name: 'fecha_inicial' })
+  @Column({ name: 'fecha_inicial', nullable: true })
   initialDate: string;
 
-  @Column({ name: 'fecha_final' })
+  @Column({ name: 'fecha_final', nullable: true })
   endingDate: string;
 
   @Column({ name: 'distancia' })
   distance: number;
 
-  @JoinColumn({ name: 'fk_lugar_origen' })
+  @JoinColumn({ name: 'fk_lugar_origen',  })
   @ManyToOne(type => Place, place => place.initialRoads)
   initialPlace: Place;
 

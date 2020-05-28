@@ -20,7 +20,10 @@ const getters = {
   },
   getUser(state) {
     return state.user;
-  }
+  },
+  getUserId(state) {
+    return state.user.id;
+  },
 };
 
 // Mutations
@@ -56,6 +59,7 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
+
       console.log(error.response.data.error);
       if (error.response.data.error === 'Unauthorized')
         commit('set_error_message', error.response.data.error);
@@ -75,6 +79,7 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
+
       console.log(error.message);
       if (error.response.data.error === 'Unauthorized')
         commit('set_error_message', error.response.data.error);
@@ -110,6 +115,7 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
+
       console.log(error.response.data.error);
       if (error.response.data.error === 'Unauthorized')
         commit('set_error_message', error.response.data.error);

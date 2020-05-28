@@ -6,6 +6,7 @@ import { PersonClient } from "../../entities/personClient.entity";
 import { Role } from "../../entities/role.entity";
 import { Status } from "../../entities/status.entity";
 import { UserStatus } from "../../entities/userStatus.entity";
+import { PersonDestinatary } from "../../entities/personDestinatary.entity";
 import { Logger } from 'winston';
 import { CreateInfo } from "../../dto/createInfo.dto";
 
@@ -20,6 +21,8 @@ export class UserService {
     private roleRepository: Repository<Role>,
     @InjectRepository(Status)
     private statusRepository: Repository<Status>,
+    @InjectRepository(PersonDestinatary)
+    private personDestinataryRepository: Repository<PersonDestinatary>,
     @Inject('winston')
     private readonly logger: Logger,
   ){}
@@ -156,5 +159,19 @@ export class UserService {
       this.logger.error(`No se puede crear el usuario, el correo para crear al usuario [${info.user}] ya esta usado`);
       throw new UnauthorizedException("The email is already in use in Delivrier");
     }
+  }
+
+  async getPersonDestinatary(clientId: number): Promise<PersonDestinatary[]>{
+    this.logger.info(`getPersonDestinatary: [user.id | ${clientId}]`);
+    const contacts: PersonDestinatary[] = await this.personDestinataryRepository.find({
+      where:` personClient.id = ${clientId}`,
+      join:{
+        alias: 'personDestinatary',
+        innerJoin:{
+          personClient: 'personDestinatary.personClient'
+        }
+      }
+    });
+    return contacts;
   }
 }

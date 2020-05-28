@@ -5,6 +5,7 @@ DROP TABLE estatus_tipo_envio;
 DROP TABLE estatus_usuario;
 DROP TABLE estatus_envio;
 DROP TABLE estatus_seguro;
+DROP TABLE estatus_persona_destinatario;
 DROP TABLE estatus;
 
 DROP TABLE parametro_envio;

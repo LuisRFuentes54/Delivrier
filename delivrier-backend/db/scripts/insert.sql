@@ -1,3 +1,5 @@
+INSERT INTO estatus (nombre)
+VALUES ('Active'),  ('Inactive'), ('Deleted'), ('Seen'), ('NotSeen'), ('Out for Delivery'), ('In Transit'), ('Delivered');
 --------------------------
 ------------------- rol
 --------------------------
@@ -217,6 +219,12 @@ VALUES (
 	6
 );
 
+INSERT INTO estatus_usuario ( fecha, fk_estatus, fk_usuario) VALUES ('2020/02/03', 1, 1);
+INSERT INTO estatus_usuario ( fecha, fk_estatus, fk_usuario) VALUES ('2020/02/03', 1, 2);
+INSERT INTO estatus_usuario ( fecha, fk_estatus, fk_usuario) VALUES ('2020/02/03', 1, 3);
+INSERT INTO estatus_usuario ( fecha, fk_estatus, fk_usuario) VALUES ('2020/02/03', 1, 4);
+INSERT INTO estatus_usuario ( fecha, fk_estatus, fk_usuario) VALUES ('2020/02/03', 2, 5);
+INSERT INTO estatus_usuario ( fecha, fk_estatus, fk_usuario) VALUES ('2020/02/03', 3, 6);
 --------------------------
 ------------------- persona_destinatario
 --------------------------
@@ -235,6 +243,25 @@ VALUES (
 	'Manu',
 	'Silva',
 	'Zambrano',
+	'04241234567',
+	'correo@correo.com',
+	3
+);
+
+INSERT INTO persona_destinatario (
+	primer_nombre,
+	segundo_nombre,
+	primer_apellido,
+	segundo_apellido,
+	telefono,
+	correo,
+	fk_persona_cliente
+) 
+VALUES (
+	'Valia',
+	'Maria',
+	'Ortega',
+	'Ruiz',
 	'04241234567',
 	'correo@correo.com',
 	3
@@ -277,7 +304,10 @@ VALUES (
 	'correo@correo.com',
 	4
 );
-
+INSERT INTO estatus_persona_destinatario ( fecha, fk_estatus, fk_persona_destinatario) VALUES ('2020/02/03', 1, 1);
+INSERT INTO estatus_persona_destinatario ( fecha, fk_estatus, fk_persona_destinatario) VALUES ('2020/02/03', 1, 2);
+INSERT INTO estatus_persona_destinatario ( fecha, fk_estatus, fk_persona_destinatario) VALUES ('2020/02/03', 1, 3);
+INSERT INTO estatus_persona_destinatario ( fecha, fk_estatus, fk_persona_destinatario) VALUES ('2020/02/03', 1, 4);
 --------------------------
 ------------------- notificacion
 --------------------------
@@ -311,10 +341,37 @@ INSERT INTO notificacion (
 ) 
 VALUES (
 	'Aviso',
-	'Le avisamos que usted tiene karanavaaaairus',
+	'Su envío ha llegado a su destino',
 	3
 );
 
+INSERT INTO notificacion (
+	nombre,
+	descripcion,
+	fk_usuario
+) 
+VALUES (
+	'Aviso',
+	'Ha salido su paquete',
+	3
+);
+
+INSERT INTO notificacion (
+	nombre,
+	descripcion,
+	fk_usuario
+) 
+VALUES (
+	'Aviso',
+	'Su paquete llegará a su destino el miércoles en la tarde',
+	3
+);
+
+INSERT INTO estatus_notificacion ( fecha, fk_estatus, fk_notificacion) VALUES ('2020/02/03 13:00:00', 4, 1);
+INSERT INTO estatus_notificacion ( fecha, fk_estatus, fk_notificacion) VALUES ('2020/02/03 13:00:00', 4, 2);
+INSERT INTO estatus_notificacion ( fecha, fk_estatus, fk_notificacion) VALUES ('2020/02/03 13:00:00', 4, 3);
+INSERT INTO estatus_notificacion ( fecha, fk_estatus, fk_notificacion) VALUES ('2020/02/03 14:00:00', 5, 4);
+INSERT INTO estatus_notificacion ( fecha, fk_estatus, fk_notificacion) VALUES ('2020/02/03 15:00:00', 5, 5);
 --------------------------
 ------------------- tipo_envio
 --------------------------
@@ -352,6 +409,11 @@ VALUES (
 	30
 );
 
+INSERT INTO estatus_tipo_envio ( fecha, fk_estatus, fk_tipo_envio) VALUES ('2020/02/03', 1, 1);
+INSERT INTO estatus_tipo_envio ( fecha, fk_estatus, fk_tipo_envio) VALUES ('2020/01/03', 2, 1);
+INSERT INTO estatus_tipo_envio ( fecha, fk_estatus, fk_tipo_envio) VALUES ('2020/02/03', 1, 2);
+INSERT INTO estatus_tipo_envio ( fecha, fk_estatus, fk_tipo_envio) VALUES ('2020/02/03', 1, 3);
+
 --------------------------
 ------------------- seguro
 --------------------------
@@ -359,25 +421,31 @@ VALUES (
 INSERT INTO seguro (
 	nombre,
 	descripcion,
-	tarifa
+	tarifa,
+	tarifa_max_devolucion
 ) 
 VALUES (
 	'We Care',
 	'Asegura tu envio por el 50% de su valor en caso de extraviarse lo que enviaste durante el trayecto',
-	50
+	70,
+	3000
 );
 
 INSERT INTO seguro (
 	nombre,
 	descripcion,
-	tarifa
+	tarifa,
+	tarifa_max_devolucion
 ) 
 VALUES (
 	'We Love',
 	'Asegura tu envio por el 100% de su valor en caso de extraviarse lo que enviaste durante el trayecto',
-	100
+	100,
+	5000
 );
-
+INSERT INTO estatus_seguro ( fecha, fk_estatus, fk_seguro) VALUES ('2020/02/03', 1, 1);
+INSERT INTO estatus_seguro ( fecha, fk_estatus, fk_seguro) VALUES ('2020/02/02', 2, 1);
+INSERT INTO estatus_seguro ( fecha, fk_estatus, fk_seguro) VALUES ('2020/02/03', 1, 2);
 --------------------------
 ------------------- configuracion_simulacion
 --------------------------
@@ -488,6 +556,12 @@ VALUES (
 	'Boston-01',
 	3
 );
+
+INSERT INTO estatus_oficina ( fecha, fk_estatus, fk_oficina) VALUES ('2020/02/03', 1, 1);
+INSERT INTO estatus_oficina ( fecha, fk_estatus, fk_oficina) VALUES ('2020/02/02', 2, 1);
+INSERT INTO estatus_oficina ( fecha, fk_estatus, fk_oficina) VALUES ('2020/02/03', 1, 2);
+INSERT INTO estatus_oficina ( fecha, fk_estatus, fk_oficina) VALUES ('2020/02/03', 1, 3);
+
 
 --------------------------
 ------------------- envio
@@ -606,12 +680,14 @@ VALUES (
 INSERT INTO parametro (
 	nombre,
 	unidad,
+	tipo,
 	valor_maximo,
 	valor_minimo
 ) 
 VALUES (
 	'Alto',
 	'cm',
+	'PAQUETE',
 	178,
 	0
 );
@@ -619,12 +695,14 @@ VALUES (
 INSERT INTO parametro (
 	nombre,
 	unidad,
+	tipo,
 	valor_maximo,
 	valor_minimo
 ) 
 VALUES (
 	'Ancho',
 	'cm',
+	'PAQUETE',
 	203,
 	0.1
 );
@@ -632,12 +710,14 @@ VALUES (
 INSERT INTO parametro (
 	nombre,
 	unidad,
+	tipo,
 	valor_maximo,
 	valor_minimo
 ) 
 VALUES (
 	'Largo',
 	'cm',
+	'PAQUETE',
 	302,
 	0.1
 );
@@ -645,12 +725,14 @@ VALUES (
 INSERT INTO parametro (
 	nombre,
 	unidad,
+	tipo,
 	valor_maximo,
 	valor_minimo
 ) 
 VALUES (
 	'Peso',
 	'kg',
+	'PAQUETE',
 	997,
 	0.1
 );
@@ -658,12 +740,14 @@ VALUES (
 INSERT INTO parametro (
 	nombre,
 	unidad,
+	tipo,
 	valor_maximo,
 	valor_minimo
 ) 
 VALUES (
 	'Cantidad',
 	'unidades',
+	'PAQUETE',
 	25,
 	1
 );
@@ -671,6 +755,7 @@ VALUES (
 INSERT INTO parametro (
 	nombre,
 	unidad,
+	tipo,
 	valor_maximo,
 	valor_minimo,
 	fk_parametro
@@ -678,6 +763,7 @@ INSERT INTO parametro (
 VALUES (
 	'Cantidad envío',
 	'unidades',
+	'ENVIO',
 	25,
 	1,
 	5
@@ -686,16 +772,16 @@ VALUES (
 INSERT INTO parametro (
 	nombre,
 	unidad,
+	tipo,
 	valor_maximo,
-	valor_minimo,
-	fk_parametro
+	valor_minimo
 ) 
 VALUES (
 	'Valor calculado',
 	'$',
-	25,
-	1,
-	6
+	'PAQUETE',
+	3000,
+	0
 );
 
 --------------------------
@@ -710,11 +796,56 @@ INSERT INTO empaque (
 	precio
 ) 
 VALUES (
-	'Sobre',
-	'Sobre Estandard de 35x25 cm',
-	25,
-	35,
-	8
+	'Sobre - Pequeño',
+	'Sobre pequeño tamaño C7. Sobre blanco.',
+	8.1,
+	11.3,
+	0.02
+);
+
+INSERT INTO empaque (
+	nombre,
+	descripcion,
+	ancho,
+	largo,
+	precio
+) 
+VALUES (
+	'Sobre - Mediano',
+	'Tamaño Americano. Sobre blanco',
+	11,
+	22,
+	0.04
+);
+
+INSERT INTO empaque (
+	nombre,
+	descripcion,
+	ancho,
+	largo,
+	precio
+) 
+VALUES (
+	'Sobre - Grande',
+	'Tamaño C4. Sobre Manila',
+	22.9,
+	37.4,
+	0.1
+);
+
+INSERT INTO empaque (
+	nombre,
+	descripcion,
+	ancho,
+	largo,
+	precio
+) 
+VALUES (
+	'Sobre - Extra grande',
+	'Tamaño C3. Sobre Manila',
+	32.4,
+	45.8,
+	0.2
 );
 
 INSERT INTO empaque (
@@ -726,8 +857,8 @@ INSERT INTO empaque (
 	precio
 ) 
 VALUES (
-	'Caja cuadrada',
-	'Caja cuadrada pequeña de 20x20x20 cm',
+	'Caja cuadrada - Pequeña',
+	'Caja ideal para objetos pequeños y frágiles',
 	20,
 	20,
 	20,
@@ -743,8 +874,8 @@ INSERT INTO empaque (
 	precio
 ) 
 VALUES (
-	'Caja cuadrada',
-	'Caja cuadrada mediana de 40x40x40 cm',
+	'Caja cuadrada - Mediana',
+	'Caja perfecta para objetos un poco pesados y espaciosos',
 	40,
 	40,
 	40,
@@ -760,8 +891,8 @@ INSERT INTO empaque (
 	precio
 ) 
 VALUES (
-	'Caja cuadrada',
-	'Caja cuadrada grande de 71x71x71 cm',
+	'Caja cuadrada - Grande',
+	'Caja utilizada para objetos de mayor envergadura y pesados',
 	71,
 	71,
 	71,
@@ -777,11 +908,11 @@ INSERT INTO empaque (
 	precio
 ) 
 VALUES (
-	'Caja rectangular',
-	'Caja rectangular pequeña de 32x27x3 cm',
-	32,
-	27,
+	'Caja rectangular - Pequeña',
+	'Caja ideal para objetos pequeños y frágiles',
 	3,
+	27,
+	32,
 	11
 );
 
@@ -794,12 +925,12 @@ INSERT INTO empaque (
 	precio
 ) 
 VALUES (
-	'Caja rectangular',
-	'Caja rectangular mediana de 30x30x46 cm',
-	30,
-	30,
-	46,
-	30
+	'Caja rectangular - Mediana',
+	'Caja perfecta para objetos un poco pesados y espaciosos',
+	18,
+	43,
+	43,
+	28
 );
 
 INSERT INTO empaque (
@@ -811,14 +942,78 @@ INSERT INTO empaque (
 	precio
 ) 
 VALUES (
-	'Caja rectangular',
-	'Caja rectangular grande de 58x43x30 cm',
-	58,
-	43,
+	'Caja rectangular - Grande',
+	'Caja utilizada para objetos de mayor envergadura y pesados',
 	30,
+	43,
+	58,
 	42
 );
 
+INSERT INTO empaque (
+	nombre,
+	descripcion,
+	alto,
+	ancho,
+	largo,
+	precio
+) 
+VALUES (
+	'Caja especial - Tubo',
+	'Caja de tubo doble interior',
+	17.5,
+	27.5,
+	150,
+	120
+);
+
+INSERT INTO empaque (
+	nombre,
+	descripcion,
+	alto,
+	ancho,
+	largo,
+	precio
+) 
+VALUES (
+	'Caja especial - Laptop',
+	'Caja para laptops y dispositivos parecidos',
+	20,
+	20,
+	41,
+	71
+);
+
+INSERT INTO empaque (
+	nombre,
+	descripcion,
+	alto,
+	ancho,
+	largo,
+	precio
+) 
+VALUES (
+	'Caja especial - Dispositivos pequeños',
+	'Caja para dispositivos electrónicos pequeños',
+	20,
+	13,
+	8,
+	40
+);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 1);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/02', 2, 1);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 2);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 3);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 4);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 5);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 6);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 7);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 8);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 9);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 10);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 11);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 12);
+INSERT INTO estatus_empaque ( fecha, fk_estatus, fk_empaque) VALUES ('2020/02/03', 1, 13);
 --------------------------
 ------------------- paquete
 --------------------------
@@ -897,5 +1092,4 @@ VALUES (
 	6
 );
 
-INSERT INTO estatus (nombre)
-VALUES ('Active'), ('Delete');
+

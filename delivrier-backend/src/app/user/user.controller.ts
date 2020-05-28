@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get } from '@nestjs/common';
+import { Controller, UseGuards, Get, Request, Param} from '@nestjs/common';
 import { UserService } from "./user.service";
 import { AuthGuard } from '@nestjs/passport';
 
@@ -6,6 +6,11 @@ import { AuthGuard } from '@nestjs/passport';
 @UseGuards(AuthGuard('jwt'))
 export class UserController {
   constructor(
-    private readonly usersService: UserService,
+    private readonly userService: UserService,
   ) {}
+
+  @Get('/contacts/:userId')
+  getPersonDestinatary(@Request() req, @Param('userId') userId: number){
+    return this.userService.getPersonDestinatary(userId);
+  }
 }

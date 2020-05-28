@@ -8,13 +8,13 @@ export class Place {
   id: number;
 
   @Column({ name: 'direccion' })
-  name: string;
+  address: string;
 
   @Column({ name: 'altitud', nullable: true })
   altitude: number;
 
   @Column({ name: 'longitud', nullable: true })
-  length: number;
+  longitude: number;
 
   @Column({ name: 'zip' })
   zip: number;

@@ -15,7 +15,7 @@ import { Pack } from "./pack.entity";
 import { ParameterPack } from "./parameterPack.entity";
 import { ParameterShipping } from "./parameterShipping.entity";
 import { Status } from "./status.entity";
-import { SecureStatus } from "./secureStatus.entity";
+import { InsuranceStatus } from "./insuranceStatus.entity";
 import { ShippingStatus } from "./shippingStatus.entity";
 import { UserStatus } from "./userStatus.entity";
 import { ShippingTypeStatus } from "./shippingTypeStatus.entity";
@@ -42,7 +42,7 @@ export const entities = [
     ParameterPack,
     ParameterShipping,
     Status,
-    SecureStatus,
+    InsuranceStatus,
     ShippingStatus,
     UserStatus,
     ShippingTypeStatus,

@@ -36,7 +36,7 @@ CREATE TABLE persona_destinatario (
 	segundo_nombre varchar(20),
 	primer_apellido varchar(20) NOT NULL,
 	segundo_apellido varchar(20),
-	telefono varchar(12) NOT NULL,
+	telefono varchar(15) NOT NULL,
 	correo varchar(40) NOT NULL,
 	fk_persona_cliente integer NOT NULL,
 	FOREIGN KEY (fk_persona_cliente) REFERENCES persona_cliente(clave)
@@ -69,6 +69,7 @@ CREATE TABLE seguro(
 	clave serial PRIMARY KEY,
 	nombre varchar(20) NOT NULL,
 	descripcion varchar(256) NOT NULL,
+	tarifa_max_devolucion numeric(8,2) NOT NULL,
 	tarifa numeric(8,2) NOT NULL
 );
 
@@ -113,7 +114,7 @@ CREATE TABLE envio (
 	clave serial PRIMARY KEY,
 	N_rastreo integer NOT NULL,
 	fk_usuario integer NOT NULL,
-	fk_seguro integer NOT NULL,
+	fk_seguro integer,
 	fk_configuracion_simulacion integer NOT NULL,
 	fk_persona_destinatario integer NOT NULL,
 	fk_tipo_envio integer NOT NULL,
@@ -134,8 +135,8 @@ CREATE TABLE envio (
 
 CREATE TABLE trayecto (
 	clave serial PRIMARY KEY,
-	fecha_inicial timestamp NOT NULL,
-	fecha_final timestamp NOT NULL,
+	fecha_inicial timestamp,
+	fecha_final timestamp,
 	distancia numeric(8,2) NOT NULL, -- especificar unidad
 	fk_oficina_origen integer,
 	fk_lugar_origen integer,
@@ -159,6 +160,7 @@ CREATE TABLE parametro (
 	clave serial PRIMARY KEY,
 	nombre varchar(20) NOT NULL,
 	unidad varchar(15) NOT NULL,
+	tipo varchar(20) NOT NULL,
 	valor_maximo numeric(8,2),
 	valor_minimo numeric(8,2),
 	fk_parametro integer,
@@ -167,7 +169,7 @@ CREATE TABLE parametro (
 
 CREATE TABLE empaque (
 	clave serial PRIMARY KEY,
-	nombre varchar(30) NOT NULL,
+	nombre varchar(256) NOT NULL,
 	descripcion varchar(256) NOT NULL,
 	alto numeric(5,2), -- especificar unidad
 	ancho numeric(5,2) NOT NULL, -- especificar unidad
@@ -276,6 +278,15 @@ CREATE TABLE estatus_notificacion(
 	fk_notificacion integer NOT NULL,
 	FOREIGN KEY (fk_estatus) REFERENCES estatus(clave),
 	FOREIGN KEY (fk_notificacion) REFERENCES notificacion(clave)
+);
+
+CREATE TABLE estatus_persona_destinatario(	
+	clave serial PRIMARY KEY,
+	fecha date NOT NULL,
+	fk_estatus integer NOT NULL,
+	fk_persona_destinatario integer NOT NULL,
+	FOREIGN KEY (fk_estatus) REFERENCES estatus(clave),
+	FOREIGN KEY (fk_persona_destinatario) REFERENCES persona_destinatario(clave)
 );
 
 ---------------------------

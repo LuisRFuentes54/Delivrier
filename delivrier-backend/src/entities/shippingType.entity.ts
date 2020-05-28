@@ -14,7 +14,7 @@ export class ShippingType {
   description: string;
 
   @Column({ name: 'tarifa_base' })
-  baseRate: number;
+  baseFare: number;
 
   @OneToMany(type => Shipping, shippings => shippings.shippingType)
   shippings: Shipping[];

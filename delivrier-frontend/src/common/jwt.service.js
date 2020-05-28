@@ -12,8 +12,8 @@ export const destroyToken = () => {
   localStorage.removeItem(ID_TOKEN_KEY);
 };
 
-export const authHeaderToken = () => {
-  return { Authorization: `Bearer ${getToken()}` };
+export const getAuthHeaderToken = () => {
+  return { headers:{'Content-Type': 'application/json','Accept':'application/json','Authorization': `Bearer ${getToken()}` }};
 };
 
-export default { getToken, saveToken, destroyToken, authHeaderToken };
+export default { getToken, saveToken, destroyToken, getAuthHeaderToken };

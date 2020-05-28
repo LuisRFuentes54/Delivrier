@@ -1,11 +1,13 @@
 import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, ManyToOne, OneToMany } from 'typeorm';
-import { SecureStatus } from "./secureStatus.entity";
+import { InsuranceStatus } from "./insuranceStatus.entity";
 import { ShippingStatus } from "./shippingStatus.entity";
 import { UserStatus } from "./userStatus.entity";
 import { ShippingTypeStatus } from "./shippingTypeStatus.entity";
 import { PackingStatus } from "./packingStatus.entity";
 import { OfficeStatus } from "./officeStatus.entity";
 import { NotificationStatus } from "./notificationStatus.entity";
+import { PersonDestinataryStatus } from "./personDestinataryStatus.entity";
+
 
 @Entity({ name: 'estatus' })
 export class Status {
@@ -15,8 +17,8 @@ export class Status {
   @Column({ name: 'nombre' })
   name: string;
 
-  @OneToMany(type => SecureStatus, secureStatus => secureStatus.status)
-  secureStatus: SecureStatus[];
+  @OneToMany(type => InsuranceStatus, insuranceStatus => insuranceStatus.status)
+  insuranceStatus: InsuranceStatus[];
 
   @OneToMany(type => ShippingStatus, shippingStatus => shippingStatus.status)
   shippingStatus: ShippingStatus[];
@@ -35,4 +37,7 @@ export class Status {
 
   @OneToMany(type => NotificationStatus, notificationStatus => notificationStatus.status)
   notificationStatus: NotificationStatus[];
+
+  @OneToMany(type => PersonDestinataryStatus, personDestinataryStatus => personDestinataryStatus.status)
+  personDestinataryStatus: PersonDestinataryStatus[];
 }

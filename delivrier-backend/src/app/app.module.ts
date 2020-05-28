@@ -8,8 +8,15 @@ import { UserModule } from './user/user.module';
 import { EmailModule } from "../email/email.module";
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ShippingTypeModule } from './shipping-type/shipping-type.module';
+import { OfficeModule } from './office/office.module';
+import { InsuranceModule } from './insurance/insurance.module';
+import { PackingModule } from './packing/packing.module';
+import { ParameterModule } from './parameter/parameter.module';
+import { ShippingModule } from './shipping/shipping.module';
 import { LanguageModule } from "../language/language.module";
 import { TrackingModule } from './tracking/tracking.module';
+
 
 @Module({
   imports: [
@@ -21,6 +28,12 @@ import { TrackingModule } from './tracking/tracking.module';
     WinstonModule.forRoot(WinstonOptions),
     UserModule,
     EmailModule,
+    ShippingTypeModule,
+    OfficeModule,
+    InsuranceModule,
+    PackingModule,
+    ParameterModule,
+    ShippingModule,
     LanguageModule,
     TrackingModule,
   ],

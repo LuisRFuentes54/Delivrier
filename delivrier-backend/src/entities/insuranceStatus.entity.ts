@@ -3,7 +3,7 @@ import { Status } from "./status.entity";
 import { Insurance } from "./insurance.entity";
 
 @Entity({ name: 'estatus_seguro' })
-export class SecureStatus {
+export class InsuranceStatus {
   @PrimaryGeneratedColumn({ name: 'clave' })
   id: number;
 
@@ -11,10 +11,12 @@ export class SecureStatus {
   date: string;
 
   @JoinColumn({ name: 'fk_estatus' })
-  @ManyToOne(type => Status, status => status.secureStatus)
+  @ManyToOne(type => Status, status => status.insuranceStatus)
   status: Status;
 
   @JoinColumn({ name: 'fk_seguro' })
-  @ManyToOne(type => Insurance, insurance => insurance.secureStatus)
+  
+  @ManyToOne(type => Insurance, insurance => insurance.insuranceStatus)
+
   insurance: Insurance;
 }

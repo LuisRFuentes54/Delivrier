@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, ManyToOne, OneToMany } from 'typeorm';
 import { Shipping } from "./shipping.entity";
-import { SecureStatus } from "./secureStatus.entity";
+import { InsuranceStatus } from "./insuranceStatus.entity";
 
 @Entity({ name: 'seguro' })
 export class Insurance {
@@ -14,11 +14,15 @@ export class Insurance {
   description: string;
 
   @Column({ name: 'tarifa' })
-  baseRate: number;
+  baseFare: number;
+
+  @Column({ name: 'tarifa_max_devolucion' })
+  maxRefundFare: number;
 
   @OneToMany(type => Shipping, shippings => shippings.insurance)
   shippings: Shipping[];
 
-  @OneToMany(type => SecureStatus, secureStatus => secureStatus.insurance)
-  secureStatus: SecureStatus[];
+  @OneToMany(type => InsuranceStatus, insuranceStatus => insuranceStatus.insurance)
+  insuranceStatus: InsuranceStatus[];
+
 }
