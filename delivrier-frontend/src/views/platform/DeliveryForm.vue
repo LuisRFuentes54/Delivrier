@@ -242,7 +242,7 @@
            <v-row>
             <v-col>
               <span v-if="!shippingRegistered && !error && !loadingError">
-                <span class="d-flex justify-center headline text-center" v-if="!preparingShippingReady"> Preparing for registering shipping <span v-if="!preparingShippingReady">...</span></span>
+                <span class="d-flex justify-center headline text-center" v-if="!preparingShippingReady"> Preparing for shipping registering<span v-if="!preparingShippingReady">...</span></span>
                 <span v-else class="d-flex justify-center headline text-center"> Registering shipping ...</span>
               </span>
               <span v-else-if="!error && !loadingError">

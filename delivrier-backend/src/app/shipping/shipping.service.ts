@@ -23,20 +23,77 @@ import { ParameterShipping } from "../../entities/parameterShipping.entity";
 import { SimulationConfig } from "../../entities/simulationConfig.entity";
 import { Place } from "../../entities/place.entity";
 import { Road } from "../../entities/road.entity";
+import { SchedulerRegistry} from '@nestjs/schedule';
+import {CronJob} from 'cron';
+import * as CustomId from 'custom-id';
 
 @Injectable()
 export class ShippingService {
   constructor(
     @InjectRepository(Status)
     private statusRepository: Repository<Status>,
+    @InjectRepository(Road)
+    private roadRepository: Repository<Road>,
     @InjectRepository(SimulationConfig)
     private simulationConfigRepository: Repository<SimulationConfig>,
     @Inject('winston')
     private readonly logger: Logger,
+    private scheduler: SchedulerRegistry
   ){}
+  addInterval(name: string, seconds: number, routes, shippingId, routeQuantity) {
+    const callback = async() => {
+      this.logger.warn(`Interval ${name} executing at time (${seconds})`);
+      await getManager().transaction(async transactionalEntityManager => {
+        let statusId;
+        if(routes.length != 1){
+          await this.updateRoute({}, routes[0].roadId, routes[0].initialOfficeId, routes[0].initialPlaceId, routes[0].initialDate, routes[0].endingDate,  transactionalEntityManager);
+        }
+        if(routeQuantity == routes.length){
+          statusId = STATUS.OUT_FOR_DELIVERY.id;
+        }
+        else{
+          if(routes.length == 1){
+            statusId = STATUS.DELIVERED.id;
+          }
+          else{
+            statusId = STATUS.IN_TRANSIT.id;
+          }
+        }
+        await this.createShippingStatus({}, shippingId, statusId, routes[0].initialDate,  transactionalEntityManager);
+      });
+      routes.shift();
+      if(!routes.length){
+        this.deleteInterval(name);
+        this.logger.warn(`job ${name} was deleted`);
+      }
+    };
+  
+    const interval = setInterval(callback, seconds);
+    this.scheduler.addInterval(name, interval);
 
+  }
+  deleteInterval(name: string) {
+    this.scheduler.deleteInterval(name);
+    this.logger.warn(`Interval ${name} deleted!`);
+  }
+
+  addTimeout(name: string, seconds: number, interval:number, routes, shippingId, routeQuantity) {
+    const callback = () => {
+      this.logger.warn(`Timeout ${name} executing after (${seconds})!`);
+      this.addInterval(CustomId({}), interval, routes, shippingId, routeQuantity);
+      this.deleteTimeout(name);
+    };
+
+    const timeout = setTimeout(callback, seconds);
+    this.scheduler.addTimeout(name, timeout);
+  }
+
+  deleteTimeout(name: string) {
+    this.scheduler.deleteTimeout(name);
+    this.logger.warn(`Timeout ${name} deleted!`);
+  }
   async createShipping(shipping: CreateShipping): Promise<void> {
-    this.logger.info(`Shipping Module: [createShipping | Registrando información de envío]`);
+    this.logger.info(`Shipping Module: [createShipping | Registrando información de envío]${CustomId({})}`);
     return await getManager().transaction(async transactionalEntityManager => {
         let personDestinataryId;
         if(!shipping.personDestinataryId){
@@ -47,7 +104,7 @@ export class ShippingService {
           personDestinataryId = shipping.personDestinataryId;
         }
         let shippingId = await this.insertShipping({}, shipping.shippmentTrackingNumber,shipping.userId, shipping.insuranceId, personDestinataryId, shipping.shippingPlanId, 1, transactionalEntityManager)
-        await this.createShippingStatus({}, shippingId, STATUS.ACTIVE.id, transactionalEntityManager);
+        await this.createShippingStatus({}, shippingId, STATUS.ACTIVE.id, new Date().toJSON(), transactionalEntityManager);
         for await (let pack of shipping.packages){
           let packageId = await this.createPackage({}, pack.description, shippingId, pack.packing, transactionalEntityManager);
           for await (let parameter of pack.parameters){
@@ -56,6 +113,7 @@ export class ShippingService {
         };
         await this.createParameterShipping({}, shipping.packageQuantity.value, shipping.packageQuantity.id, shippingId, transactionalEntityManager)
         let routes = [];
+        let lastPoint;
         let i = 0;
         for await(let shippingRoute of shipping.route){
           let placeId;
@@ -74,6 +132,17 @@ export class ShippingService {
               roadId: null
             }
           }
+          else{
+            lastPoint = {
+              initialDate: shippingRoute.initialDate,
+              endingDate: shippingRoute.finalDate,
+              distance: null,
+              initialPlaceId: null,
+              initialOfficeId: null,
+              endingPlaceId: null,
+              roadId: null
+            }
+          }
           
           if(i){
             routes[i-1].endingPlaceId = placeId;
@@ -87,6 +156,9 @@ export class ShippingService {
           let routeId = await this.createRoute({}, shippingId, route.distance, route.initialOfficeId, route.initialPlaceId, route.endingPlaceId, null, null, transactionalEntityManager)
           route.roadId = routeId;
         }
+        routes.push(lastPoint);
+        let routeQuantity = routes.length;
+        this.addTimeout(CustomId({}), shipping.delay * 60 * 1000, 60000, routes,shippingId, routeQuantity);
     });
   }
 
@@ -178,7 +250,7 @@ export class ShippingService {
     }
   }
 
-  async createShippingStatus(shippingStatus: Partial<ShippingStatus>, newShippingId: number, statusId: number, transactionalEntityManager):Promise<void>{
+  async createShippingStatus(shippingStatus: Partial<ShippingStatus>, newShippingId: number, statusId: number, date: string,  transactionalEntityManager):Promise<void>{
     this.logger.info(`ShippingModule | createShippingStatus [Registrando un nuevo status para el envío | shipping.id: ${newShippingId} | status.id: ${statusId}]`);
     const shippingStatusTransactionRepository: Repository<ShippingStatus> = transactionalEntityManager.getRepository(
       ShippingStatus,
@@ -189,7 +261,7 @@ export class ShippingService {
     try{
       shippingStatus.shipping = await shippingTransactionRepository.findOne(newShippingId);
       shippingStatus.status = await this.statusRepository.findOne(statusId);
-      shippingStatus.date = new Date().toJSON();
+      shippingStatus.date = date;
       await shippingStatusTransactionRepository.save(shippingStatus);
     }
     catch(ex){
@@ -317,6 +389,24 @@ export class ShippingService {
     }
     catch(ex){
       this.logger.error(`Fallo en la inserción de un trayecto del envío: [ shipping.id: ${newShippingId} | office.id: ${initialOfficeId} | initialPlace.id: ${initialPlaceId}] | Exception: ex=${ex}`);
+      throw new InternalServerErrorException(`Error Interno en la creación del envío`);
+    }
+    
+  }
+  async updateRoute(road: Partial<Road>, roadId: number, initialOfficeId:number | null, initialPlaceId: number | null, initialDate: string, endingDate: string, transactionalEntityManager):Promise<void>{
+    this.logger.info(`ShippingModule | updateRoute [Registrando un nuevo trayecto | road.id: ${roadId} | office.id: ${initialOfficeId} | initialPlace.id: ${initialPlaceId} | road.initialDate: ${initialDate} | road.endingDate: ${endingDate}]`);
+    const roadTransactionRepository: Repository<Road> = transactionalEntityManager.getRepository(
+      Road,
+    );
+    try{
+      road = await roadTransactionRepository.findOne(roadId);
+      road.initialDate = initialDate;
+      road.endingDate = endingDate;
+      
+      await roadTransactionRepository.save(road);
+    }
+    catch(ex){
+      this.logger.error(`Fallo en la actualización de la ruta: [ road.id: ${roadId} | office.id: ${initialOfficeId} | initialPlace.id: ${initialPlaceId} | road.initialDate: ${initialDate} | road.endingDate: ${endingDate}] | Exception: ex=${ex}`);
       throw new InternalServerErrorException(`Error Interno en la creación del envío`);
     }
     

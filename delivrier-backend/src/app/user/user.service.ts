@@ -9,6 +9,8 @@ import { UserStatus } from "../../entities/userStatus.entity";
 import { PersonDestinatary } from "../../entities/personDestinatary.entity";
 import { Logger } from 'winston';
 import { CreateInfo } from "../../dto/createInfo.dto";
+import { SchedulerRegistry } from '@nestjs/schedule';
+import {CronJob} from 'cron';
 
 @Injectable()
 export class UserService {
@@ -25,8 +27,22 @@ export class UserService {
     private personDestinataryRepository: Repository<PersonDestinatary>,
     @Inject('winston')
     private readonly logger: Logger,
+    private scheduler: SchedulerRegistry
   ){}
 
+  addCronJob(name: string, seconds: string) {
+    let number = [1,2,3,4,5,6,7,8,9];
+  const job = new CronJob(`${seconds} * * * * *`, () => {
+    this.logger.warn(`time (${seconds}) for job ${name} to run!`);
+  });
+
+  this.scheduler.addCronJob(name, job);
+  job.start();
+
+  this.logger.warn(
+    `job ${name} added for each minute at ${seconds} seconds!`,
+  );
+}
   async getRoleByName(roleName: string): Promise<Role> {
     const role : Role = await this.roleRepository.findOne({
       where: { name: roleName }

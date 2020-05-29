@@ -228,7 +228,7 @@ CREATE TABLE estatus_seguro(
 
 CREATE TABLE estatus_envio(
 	clave serial PRIMARY KEY,
-	fecha date NOT NULL,
+	fecha timestamp NOT NULL,
 	fk_estatus integer NOT NULL,
 	fk_envio integer NOT NULL,
 	FOREIGN KEY (fk_estatus) REFERENCES estatus(clave),
