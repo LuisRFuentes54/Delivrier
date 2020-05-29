@@ -12,6 +12,7 @@ import { entities } from "../../entities/index";
     TypeOrmModule.forFeature(entities)
   ],
   controllers: [TrackingController],
-  providers: [TrackingService, TrackingRepository]
+  providers: [TrackingService, TrackingRepository],
+  exports: [TrackingService]
 })
 export class TrackingModule {}

@@ -17,6 +17,7 @@ import { ParameterModule } from './parameter/parameter.module';
 import { ShippingModule } from './shipping/shipping.module';
 import { LanguageModule } from "../language/language.module";
 import { TrackingModule } from './tracking/tracking.module';
+import { BotModule } from './bot/bot.module';
 
 
 @Module({
@@ -38,6 +39,7 @@ import { TrackingModule } from './tracking/tracking.module';
     ShippingModule,
     LanguageModule,
     TrackingModule,
+    BotModule,
   ],
   controllers: [AppController],
   providers: [AppService],
