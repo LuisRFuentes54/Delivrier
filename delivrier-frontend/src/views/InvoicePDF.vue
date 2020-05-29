@@ -1,9 +1,13 @@
 <template>
   <div>
+    <v-btn class="button" color="success" @click="generateReport"
+      >Download Invoice</v-btn
+    >
+    <Invoice :tracking="tracking" />
     <vue-html2pdf
       :show-layout="false"
-      :enable-download="false"
-      :preview-modal="true"
+      :enable-download="true"
+      :preview-modal="false"
       :paginate-elements-by-height="1400"
       filename="invoice"
       :pdf-quality="2"
@@ -53,7 +57,7 @@ export default {
     Invoice
   },
   async mounted() {
-    this.generateReport();
+    // this.generateReport();
 
     let errorMessage = '';
     await this.$store.dispatch('users/tracking', this.data_trackingNumber);
@@ -63,4 +67,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.button {
+  margin: 40px;
+}
+</style>

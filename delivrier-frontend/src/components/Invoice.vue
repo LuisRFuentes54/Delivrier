@@ -149,13 +149,20 @@
     <section class="pdf-item total-number">
       <p class="complete-number">{{ '$' + total }}</p>
     </section>
-    <section class="pdf-item qr-code"></section>
+    <section class="pdf-item qr-code">
+      <QRCode :link="qrlink" />
+    </section>
   </section>
 </template>
 
 <script>
+import QRCode from '../components/QRCode';
+
 export default {
   name: 'Invoice',
+  components: {
+    QRCode
+  },
   props: {
     tracking: {
       type: String,
@@ -260,6 +267,8 @@ export default {
   },
   data() {
     return {
+      link: '',
+      ip: '',
       info: {},
       today: '',
       invoiceNumber: 0,
@@ -293,7 +302,9 @@ export default {
       data_Total: 0
     };
   },
-  async mounted() {
+  async created() {
+    this.ip = process.env.VUE_APP_IP;
+
     let errorMessage = '';
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -433,6 +444,12 @@ export default {
       else if (typeof this.data_insuranceCost === 'number')
         iCost = this.data_insuranceCost;
       return this.data_subTotal + iCost;
+    },
+    qrlink() {
+      let ipAddress = this.ip;
+      let track = this.tracking;
+      let link = `http://${ipAddress}:8080/qrstatus/${track}`;
+      return link;
     }
   }
 };
@@ -827,7 +844,8 @@ ul {
 .contenedor .qr-code {
   border: 1px solid black;
   grid-area: qr-code;
-  background: blue;
+  text-align: center;
+  padding-top: 6px;
 }
 
 .complete {

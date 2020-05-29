@@ -10,15 +10,12 @@
       <v-row class="text-center">
         <v-col cols="12">
           <br />
-          <h1 class="display-2 font-weight-medium">{{ term.TRA_TITLE }}</h1>
+          <h1 class="display-2 font-weight-medium">Shipping Status</h1>
           <br />
           <v-container>
             <p class="subtitle-1 font-weight-regular">
-              {{ term.TRA_PAR_1 }}
-            </p>
-
-            <p class="title font-weight-bold textColorBlue">
-              {{ term.TRA_PAR_2 }}
+              You will check your shipphing status with Tracking ID:
+              {{ tracking }} here
             </p>
           </v-container>
         </v-col>
@@ -30,7 +27,7 @@
 <script>
 export default {
   name: 'Tracking',
-
+  props: ['tracking'],
   data() {
     return {
       term: this.$store.getters['language/getTerms']
