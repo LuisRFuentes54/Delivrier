@@ -213,7 +213,7 @@ const routes = [
       import(/* webpackChunkName: "Invoice" */ '../components/Invoice.vue')
   },
   {
-    path: '/invoicepdf/:tracking/:sendEmail',
+    path: '/invoicepdf/:trackingURL/:sendEmail',
     name: 'InvoicePDF',
     props: true,
     // route level code-splitting

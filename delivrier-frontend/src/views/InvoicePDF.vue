@@ -3,7 +3,8 @@
     <v-btn class="button" color="success" @click="generateReport"
       >Download Invoice</v-btn
     >
-    <Invoice :tracking="tracking" />
+    <Invoice v-if="trackingURL !== undefined" :tracking="trackingURL" />
+    <Invoice v-if="trackingProps !== undefined" :tracking="trackingProps" />
     <vue-html2pdf
       :show-layout="false"
       :enable-download="true"
@@ -21,7 +22,8 @@
     >
       <section slot="pdf-content">
         <!-- PDF Content Here -->
-        <Invoice :tracking="tracking" />
+        <Invoice v-if="trackingURL !== undefined" :tracking="trackingURL" />
+        <Invoice v-if="trackingProps !== undefined" :tracking="trackingProps" />
       </section>
     </vue-html2pdf>
   </div>
@@ -33,7 +35,20 @@ import Invoice from '../components/Invoice';
 
 export default {
   name: 'InvoicePDF',
-  props: ['tracking', 'sendEmail'],
+  props: {
+    trackingURL: {
+      type: String,
+      required: false
+    },
+    sendEmail: {
+      type: String,
+      required: false
+    },
+    trackingProps: {
+      type: String,
+      required: false
+    }
+  },
   methods: {
     /*
             Generate Report using refs and calling the
@@ -55,14 +70,6 @@ export default {
   components: {
     VueHtml2pdf,
     Invoice
-  },
-  async mounted() {
-    // this.generateReport();
-
-    let errorMessage = '';
-    await this.$store.dispatch('users/tracking', this.data_trackingNumber);
-    errorMessage = this.$store.getters['users/getError'].error;
-    if (errorMessage !== '') console.log(errorMessage);
   }
 };
 </script>
