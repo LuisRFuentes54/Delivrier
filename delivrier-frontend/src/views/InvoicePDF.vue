@@ -60,11 +60,23 @@ export default {
     hasGenerated(blobPdf) {
       var formData = new FormData();
       formData.append('file', blobPdf, 'invoice');
-      console.log('ESTE ES EL FORM DATA: ', formData.get);
       if (this.sendEmail === 'send') this.sendPDF(formData);
     },
     async sendPDF(pdf) {
-      await this.$store.dispatch('users/pdf', pdf);
+      let payload = '';
+      if(this.trackingURL !== undefined){
+        payload = {
+          pdf: pdf,
+          trackingNumber: this.trackingURL
+        };
+      } else if (this.trackingProps !== undefined){
+        payload = {
+          pdf: pdf,
+          trackingNumber: this.trackingProps
+        };
+      }
+      console.log('Se va a enviar esto:',payload)
+      await this.$store.dispatch('users/pdf', payload);
     }
   },
   components: {

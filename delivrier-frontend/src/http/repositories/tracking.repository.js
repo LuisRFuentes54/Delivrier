@@ -5,7 +5,7 @@ export default {
   get(trackingNumber) {
     return httpClient.get(`${resource}/${trackingNumber}`);
   },
-  sendPDF(pdf) {
-    return httpClient.post(`${resource}/pdf`, pdf);
+  sendPDF(payload) {
+    return httpClient.post(`${resource}/pdf/${payload.trackingNumber}`, payload.pdf);
   }
 };

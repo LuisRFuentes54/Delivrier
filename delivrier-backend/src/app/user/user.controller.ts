@@ -13,4 +13,9 @@ export class UserController {
   getPersonDestinatary(@Request() req, @Param('userId') userId: number){
     return this.userService.getPersonDestinatary(userId);
   }
+
+  @Get('/shippings/:userId')
+  getshippings(@Param('userId') userId: number){
+    return this.userService.getUserShippings(userId)
+  }
 }

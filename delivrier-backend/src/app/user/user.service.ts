@@ -10,7 +10,10 @@ import { PersonDestinatary } from "../../entities/personDestinatary.entity";
 import { Logger } from 'winston';
 import { CreateInfo } from "../../dto/createInfo.dto";
 import { SchedulerRegistry } from '@nestjs/schedule';
-import {CronJob} from 'cron';
+import { CronJob } from 'cron';
+import { Shipping } from 'src/entities/shipping.entity';
+import { ShippingStatus } from "../../entities/shippingStatus.entity";
+import { Road } from "../../entities/road.entity";
 
 @Injectable()
 export class UserService {
@@ -137,10 +140,10 @@ export class UserService {
    *
    */
   async createUser(info: CreateInfo): Promise<void> {
-    this.logger.info(`Validando la información para crear al usuario [${info.user.username}]`);
+    this.logger.info(`[UserService] Validating the information to create the user [${info.user.username}]`);
     if(!(await this.thisEmailIsInUse(info.email))){
       if(!(await this.thisUsernameIsInUse(info.user.username))){
-        this.logger.info(`Creando al usuario [${info.user.username}]`);
+        this.logger.info(`[UserService] Creating the user [${info.user.username}]`);
         return await getManager().transaction(async transactionalEntityManager => {
                 try{
                   const newPerson = {
@@ -159,7 +162,7 @@ export class UserService {
                   await this.createStatusUser({},newUserID,'Active',transactionalEntityManager);
                 }
                 catch(ex){
-                  this.logger.error(`No se pudo crear el usuario [${info.user.username} | ${info.email}], ocurrio un error inesperado | Exception: ex=${ex}`);
+                  this.logger.error(`[UserService] Could not create user [${info.user.username} | ${info.email}], an unexpected error occurred | Exception: ex=${ex}`);
                   if(this.thisEmailIsInUse(info.email))
                     this.deletePersonClient(info.email);
                   throw new InternalServerErrorException(`Error Interno en la creación de la persona`);
@@ -167,18 +170,18 @@ export class UserService {
         })
       }
       else{
-        this.logger.error(`No se puede crear el usuario, el nombre de usuario [${info.user.username}] ya esta usado`);
+        this.logger.error(`[UserService] Cannot create user, username [${info.user.username}] already used`);
         throw new UnauthorizedException("The username is already in use in Delivrier");
       }
     }
     else{
-      this.logger.error(`No se puede crear el usuario, el correo para crear al usuario [${info.user}] ya esta usado`);
+      this.logger.error(`[UserService] Cannot create user, mail to create user [${info.user}] alredy used`);
       throw new UnauthorizedException("The email is already in use in Delivrier");
     }
   }
 
   async getPersonDestinatary(clientId: number): Promise<PersonDestinatary[]>{
-    this.logger.info(`getPersonDestinatary: [user.id | ${clientId}]`);
+    this.logger.info(`[UserService] getPersonDestinatary: [user.id | ${clientId}]`);
     const contacts: PersonDestinatary[] = await this.personDestinataryRepository.find({
       where:` personClient.id = ${clientId}`,
       join:{
@@ -189,5 +192,68 @@ export class UserService {
       }
     });
     return contacts;
+  }
+
+  findStatus(name: string, status): boolean {
+    let result = false;
+    status.forEach(stat => {
+      if (stat.status.name === name){
+        result = true;
+      }
+    });
+    return result
+  }
+
+  getActualStatus(status): string {
+    if (this.findStatus("Delivered",status))
+      return "Delivered"
+    else if (this.findStatus("In Transit",status))
+      return "In Transit"
+    else if (this.findStatus("Out for Delivery",status))
+      return "Out for Delivery"
+    else
+      return "Active"
+  }
+
+  getEndingPlace(roads: Road[]){
+    let final;
+    roads.forEach(road => {
+      final = road.endingPlace
+    });
+    return final
+  }
+
+  getinitialOffice(roads: Road[]){
+    let office;
+    roads.forEach(road => {
+      if (road.initialOffice)
+        office = road.initialOffice
+    });
+    return office;
+  }
+
+  async getUserShippings(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['shippings','shippings.roads','shippings.roads.initialPlace','shippings.roads.initialOffice','shippings.roads.initialOffice.place','shippings.roads.endingPlace','shippings.personDestinatary','shippings.shippingStatus','shippings.shippingStatus.status']
+    });
+    if(user.shippings.length){
+      let shippments = [];
+      user.shippings.forEach(ship => {
+        shippments.push({
+          id : ship.id,
+          numberTrack : ship.nLocalitation,
+          initialDate : ship.shippingStatus[0].date,
+          status : this.getActualStatus(ship.shippingStatus),
+          personDestinatary : ship.personDestinatary,
+          initialOffice : this.getinitialOffice(ship.roads),
+          endingPlace : this.getEndingPlace(ship.roads)
+        })
+      });
+      return shippments;
+    }
+    else{
+      return "Este usuario no ha realizado ningún envío"
+    }
   }
 }

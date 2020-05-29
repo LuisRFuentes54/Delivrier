@@ -19,7 +19,7 @@ export class LanguageService {
   }
 
   async getTermsLanguage(code: string): Promise<Response> {
-    this.logger.info(`Obteniendo Terminos de POEditor, codigo de lenguaje: ${code}`);
+    this.logger.info(`[LanguageService] Getting language terms from POEditor, language code [${code}]`);
     try {
       const responseTerms: any = await this.languageRepository.getTermsLanguage(code);
       if (responseTerms.response.status === 'success') {
