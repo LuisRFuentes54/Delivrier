@@ -21,7 +21,7 @@ const repositories = {
   parameter: ParameterRepository,
   packing: PackingRepository,
   shipping: ShippingRepository,
-  language: LanguageRepository
+  language: LanguageRepository,
 };
 export default {
   get: name => repositories[name]
