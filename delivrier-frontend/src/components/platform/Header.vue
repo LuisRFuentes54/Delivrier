@@ -104,7 +104,7 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title class="subtitle-2">Cerrar Sesión</v-list-item-title>
+              <v-list-item-title class="subtitle-2">{{ term.HEA_LOG_OUT }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -117,9 +117,24 @@
 import jwt from '../../common/jwt.service';
 export default {
   name: 'Header',
+  props: ['term'],
   data: () => ({
     admin: false,
     menuOptions: [
+      {
+        title: 'Deliveries',
+        routeName: 'Deliveries',
+        icon: 'mdi-package-variant'
+      },
+      {
+        title: 'DeliveryForm',
+        routeName: 'DeliveryForm',
+        icon: 'mdi-truck-delivery'
+      },
+      { title: 'Notifications', routeName: 'Notifications', icon: 'mdi-bell' },
+      { title: 'Profile', routeName: 'Profile', icon: 'mdi-account' }
+    ],
+    menuOptionsAlt: [
       {
         title: 'Historial de Envíos',
         routeName: 'Deliveries',
@@ -171,8 +186,9 @@ export default {
       },
     ],
     selectedOption: 0,
-    languages: ['Español', 'English'],
-    language: 'Español',
+    chlg: false,
+    languages: ['English', 'Español'],
+    language: 'English',
     username: ''
   }),
   methods: {
@@ -198,6 +214,17 @@ export default {
         this.selectedOption = this.menuOptions.findIndex(option => {
           return this.$router.currentRoute.name === option.routeName;
         });
+      }
+    },
+    language(){
+      if(this.chlg){
+        const changeMenu = this.menuOptions;
+        this.menuOptions = this.menuOptionsAlt;
+        this.menuOptionsAlt = changeMenu;
+        this.$emit('changeLanguage');
+      }
+      else{
+        this.chlg = true
       }
     }
   },

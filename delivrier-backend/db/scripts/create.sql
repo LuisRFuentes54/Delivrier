@@ -137,7 +137,7 @@ CREATE TABLE trayecto (
 	clave serial PRIMARY KEY,
 	fecha_inicial timestamp,
 	fecha_final timestamp,
-	distancia numeric(8,2) NOT NULL, -- especificar unidad
+	distancia numeric(20,2) NOT NULL, -- especificar unidad
 	fk_oficina_origen integer,
 	fk_lugar_origen integer,
 	fk_lugar_destino integer,

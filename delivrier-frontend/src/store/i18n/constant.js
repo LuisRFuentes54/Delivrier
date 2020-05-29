@@ -82,4 +82,5 @@ export const terms = {
     PRI_PAR_7: "Our users can select between different packages for their shipments. Each package has a price that is added directly to the amount of the final shipment",
     PRI_SUBTITLE_6: "Insurance",
     PRI_PAR_8: "We offer several insurance plans that cover different percentages of the value of the objects sent in case of loss or damage",
+    HEA_LOG_OUT: "Log Out",
 }
