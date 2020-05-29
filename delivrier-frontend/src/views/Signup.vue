@@ -15,7 +15,7 @@
         <v-card-text class="text-center">
           <v-form>
             <div v-if="errors.length" class="mx-auto mb-5 error-card">
-              <ul>
+              <ul class="list">
                 <li class="error-list" v-for="(error, index) in errors" :key="index">{{ error }}</li>
               </ul>
             </div>
@@ -188,7 +188,9 @@ export default {
         await this.$store.dispatch('users/createAccount', person);
         errorMessage = this.$store.getters['users/getError'].error;
         if (errorMessage !== '') this.errors.push(errorMessage);
-        if (this.errors.length === 0) this.$router.push('home');
+        if (this.errors.length === 0) {
+          this.$router.push({ name: 'Platform' });
+        }
       } else {
         if (!this.firstName) this.errors.push('First Name required.');
         if (!this.firstLastName) this.errors.push('First Last Name required.');
@@ -225,18 +227,19 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5px;
 }
 
-.error-list {
-  list-style-type: none;
+.list {
+  padding: 0px !important;
 }
 
 li {
   color: #3399ff;
   list-style-type: none;
+  list-style-position: outside;
 }
 
-li:hover,
 li.router-link-active,
 li.router-link-exact-active {
   cursor: pointer;

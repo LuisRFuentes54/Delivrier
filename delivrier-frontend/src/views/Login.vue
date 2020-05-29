@@ -24,8 +24,8 @@
         <p class="text-center caption grey--text">Or sign in with credentials</p>
         <v-card-text class="text-center">
           <v-form>
-            <div v-if="errors.length" class="mx-auto mb-5 error-card">
-              <ul>
+            <div class="mx-auto mb-5 error-card" v-if="errors.length">
+              <ul class="list">
                 <li class="error-list" v-for="(error, index) in errors" :key="index">{{ error }}</li>
               </ul>
             </div>
@@ -98,18 +98,25 @@ export default {
       await this.$store.dispatch('users/createAccountGoogle');
       errorMessage = this.$store.getters['users/getError'].error;
       if (errorMessage === 'Unauthorized') {
-        this.$router.push({ name: 'SignUpGoogle' });
+        this.$router.push({ name: 'SignUpFederated' });
         this.errors.push(errorMessage);
       }
-
       if (this.errors.length === 0) this.$router.push({ name: 'Platform' });
     },
     async loginFacebook() {
       this.errors = [];
       let errorMessage = '';
-      await this.$store.dispatch('users/authorizeFacebook');
+      await this.$store.dispatch('users/createAccountFacebook');
       errorMessage = this.$store.getters['users/getError'].error;
-      if (errorMessage !== '') this.errors.push(errorMessage);
+      if (errorMessage === 'Unauthorized') {
+        this.$router.push({ name: 'SignUpFederated' });
+        this.errors.push(errorMessage);
+      } else if (
+        errorMessage ===
+        'An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.'
+      ) {
+        this.errors.push(errorMessage);
+      }
       if (this.errors.length === 0) this.$router.push({ name: 'Platform' });
     }
   }
@@ -134,18 +141,19 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5px;
 }
 
-.error-list {
-  list-style-type: none;
+.list {
+  padding: 0px !important;
 }
 
 li {
   color: #3399ff;
   list-style-type: none;
+  list-style-position: outside;
 }
 
-li:hover,
 li.router-link-active,
 li.router-link-exact-active {
   cursor: pointer;

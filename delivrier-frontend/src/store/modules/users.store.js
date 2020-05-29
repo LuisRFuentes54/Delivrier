@@ -74,25 +74,6 @@ const actions = {
       }
     }
   },
-  async authorizeFacebook({ commit }) {
-    try {
-      let response = await AuthorizeRepository.authorizeFacebook();
-      response = await AuthorizeRepository.authorizeFacebookBackend({
-        email: response.user.email,
-        photoURL: response.user.photoURL
-      });
-      commit('set_user', response.user);
-      commit('set_error_message', '');
-      jwt.saveToken(response.access_token);
-    } catch (error) {
-      console.log(error.message);
-      if (error.response.data.error === 'Unauthorized')
-        commit('set_error_message', error.response.data.error);
-      else {
-        commit('set_error_message', 'An error has occurred trying to login.');
-      }
-    }
-  },
   async createAccountGoogle({ commit }) {
     try {
       let response = await AuthorizeRepository.authorizeGoogle();
@@ -120,10 +101,55 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
-      console.log(error.response.data.error);
-      if (error.response.data.error === 'Unauthorized')
+      if (error.response && error.response.data.error === 'Unauthorized')
         commit('set_error_message', error.response.data.error);
-      else {
+      else if (
+        error.message &&
+        error.message ===
+          'An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.'
+      ) {
+        commit('set_error_message', error.message);
+      } else {
+        commit('set_error_message', 'An error has occurred trying to sign in.');
+      }
+    }
+  },
+  async createAccountFacebook({ commit }) {
+    try {
+      let response = await AuthorizeRepository.authorizeFacebook();
+      let splittedEmail = response.additionalUserInfo.profile.email.split('@');
+      //set user datos firebase
+      commit('set_user', {
+        username: splittedEmail[0],
+        password: null,
+        personClient: {
+          firstName: response.additionalUserInfo.profile.first_name,
+          secondName: null,
+          firstLastName: response.additionalUserInfo.profile.last_name,
+          secondLastName: null,
+          phoneNumber: null,
+          birthDate: null,
+          identNum: null,
+          email: response.additionalUserInfo.profile.email,
+          photo: response.additionalUserInfo.profile.picture.data.url
+        }
+      });
+      response = await AuthorizeRepository.authorizeFacebookBackend({
+        email: response.user.email
+      });
+      commit('set_user', response.user);
+      commit('set_error_message', '');
+      jwt.saveToken(response.access_token);
+    } catch (error) {
+      if (error.response && error.response.data.error === 'Unauthorized')
+        commit('set_error_message', error.response.data.error);
+      else if (
+        error.message &&
+        error.message ===
+          'An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.'
+      ) {
+        commit('set_error_message', error.message);
+      } else {
         commit('set_error_message', 'An error has occurred trying to sign in.');
       }
     }
@@ -135,7 +161,14 @@ const actions = {
       commit('set_error_message', '');
       jwt.saveToken(response.access_token);
     } catch (error) {
-      commit('set_error_message', error.response.data.message);
+      console.log(error.response.data.message);
+      if (
+        error.response.data.message ===
+        'The username is already in use in Delivrier'
+      )
+        commit('set_error_message', error.response.data.message);
+      else
+        commit('set_error_message', 'An error has occurred trying to sign up.');
     }
   },
   async tracking({ commit }, payload) {
