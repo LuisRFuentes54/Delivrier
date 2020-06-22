@@ -1,0 +1,20 @@
+version: "3"
+services:
+  delivrier-db:
+    image: thonygrz/delivrier-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: thonypost
+      POSTGRES_DB: docker-delivrier
+    ports: 
+      - "8000:5432"
+  delivrier-frontend:
+    image: thonygrz/delivrier-frontend
+    ports: 
+      - "8080:8080"
+  delivrier-backend:
+    image: thonygrz/delivrier-backend
+    ports: 
+      - "3000:3000"
+    depends_on: 
+      - delivrier-db

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository} from 'typeorm';
-import { Office } from "../../entities/Office.entity";
+import { Office } from "../../entities/office.entity";
 import { STATUS } from "../../common/constants";
 import { Logger } from 'winston';
 
