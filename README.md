@@ -29,6 +29,7 @@ Delivrier is a courrier and package delivery platform. Works in all USA territor
   - [Backend](#backend)
   - [Fronend](#frontend)
   - [Telegram](#telegram)
+  - [Docker (Activity 3)](#docker)
 - [Authors and acknowledgment](#authors-and-acknowledgment)
   - [Team 3](#team-3)
   - [Colaborators from Consortium 2](#colaborators-from-consortium-2)
@@ -155,6 +156,15 @@ App running at:
 - In contact on telegram find the name of the bot: @myDelivirerBot
 - Press the start button in the Telegram chat with the bot
 - Write the command /PackageCheck ######## where the '#' represent the 8 numbers of the tracking id
+
+### Docker
+If you have Docker and want to run Delivrier in containers, what you should do is go to the root of the project and execute the following command:
+
+```bash
+$ docker-compose up
+```
+
+>**INFO**: Please do not change anything in the docker-compose.yml file
 
 ## Authors and acknowledgment
 
