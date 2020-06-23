@@ -158,6 +158,8 @@ App running at:
 - Write the command /PackageCheck ######## where the '#' represent the 8 numbers of the tracking id
 
 ### Docker
+### Activity 3
+### Luis Fuentes - Anthony Rodríguez
 If you have Docker and want to run Delivrier in containers, what you should do is go to the root of the project and execute the following command:
 
 ```bash
